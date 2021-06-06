@@ -10,12 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "UPDATE `categories` SET `cat_name` = '$cat_name' WHERE `categories`.`cat_id` = $cat_id";
         $result = mysqli_query($conn, $sql);
     }
-    if(isset($_POST['deleteId'])){
+    else if(isset($_POST['deleteId'])){
         $deleteId = $_POST['deleteId'];
         $sql = "DELETE FROM `categories` WHERE `categories`.`cat_id` = $deleteId";
         $result = mysqli_query($conn, $sql);
     }
-    if{
+    else{
         $cat_name = $_POST['catname'];
 
         $sql = "INSERT INTO `categories` (`cat_name`) VALUES ('$cat_name')";
