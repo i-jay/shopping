@@ -87,18 +87,6 @@ $sellers = mysqli_num_rows($result4);
                           <i class="fas fa-box me-2"></i>
                           Products
                         </a>
-                        <a class="nav-link sidebarlink mx-2" href="categories.php">
-                          <i class="fas fa-clipboard-list me-2"></i>
-                          Categories
-                        </a>
-                        <a class="nav-link sidebarlink mx-2" href="users.php">
-                          <i class="fas fa-user me-2"></i>
-                          Users
-                        </a>
-                        <a class="nav-link sidebarlink mx-2" href="sellers.php">
-                            <i class="fas fa-store me-2"></i>
-                            Sellers
-                        </a>
                         <a class="nav-link sidebarlink mx-2" href="orders.php">
                           <i class="fas fa-shopping-bag me-2"></i>
                           Orders
@@ -123,7 +111,7 @@ $sellers = mysqli_num_rows($result4);
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="card bg-warning text-white mb-4">
+                            <div class="card bg-success text-white mb-4">
                                 <div class="card-body fs-4"><?php echo $orders ;?></div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
                                     <a class="small text-white stretched-link text-decoration-none fs-5" href="./orders.php">Total Orders</a>
@@ -131,24 +119,8 @@ $sellers = mysqli_num_rows($result4);
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-success text-white mb-4">
-                                <div class="card-body fs-4"><?php echo $users ;?></div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link text-decoration-none fs-5" href="./users.php">Total Users</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-danger text-white mb-4">
-                                <div class="card-body fs-4"><?php echo $sellers ;?></div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link text-decoration-none fs-5" href="./sellers.php">Total Sellers</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
+                    
+                        
                     </div>
                 </div>
             </main>

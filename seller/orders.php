@@ -1,27 +1,3 @@
-<?php
-
-include '../assets/dbconnect.php';  
-$category_id = $_GET["cat_id"];
-
-
-
-// if($_SERVER['REQUEST_METHOD'] == 'POST'){
-//     $editcat_name = ;
-
-//     $sql = "UPDATE categories SET `cat_name`="$_POST['editcatname']" WHERE `cat_id`= $category_id ";
-//     $result = mysqli_query($conn, $sql);
-
-//     if(!$result){
-//         echo "locho thai gayo";
-//     }
-                
-
-// }
-
-
-  
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,7 +37,7 @@ $category_id = $_GET["cat_id"];
         <a class="navbar-brand ps-3" href="index.php">Shopping</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 bg-primary px-2" id="sidebarToggle" href="#!"
-            ><i class="fas fa-bars" style="font-size: 25px; color: white;"></i></button>
+            style="background: ; "><i class="fas fa-bars" style="font-size: 25px; color: white;"></i></button>
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ms-4 me-0 me-md-3 my-2 my-md-0">
             <div class="input-group">
@@ -94,18 +70,6 @@ $category_id = $_GET["cat_id"];
                             <i class="fas fa-box me-2"></i>
                             Products
                         </a>
-                        <a class="nav-link sidebarlink mx-2" href="categories.php">
-                            <i class="fas fa-clipboard-list me-2"></i>
-                            Categories
-                        </a>
-                        <a class="nav-link sidebarlink mx-2" href="users.php">
-                            <i class="fas fa-user me-2"></i>
-                            Users
-                        </a>
-                        <a class="nav-link sidebarlink mx-2" href="vendors.php">
-                            <i class="fas fa-store me-2"></i>
-                            Vendors
-                        </a>
                         <a class="nav-link sidebarlink mx-2" href="orders.php">
                             <i class="fas fa-shopping-bag me-2"></i>
                             Orders
@@ -118,30 +82,68 @@ $category_id = $_GET["cat_id"];
             <main>
                 <div class="container-fluid px-4">
                     <!-- content code here -->
-                    <h3 class="mt-4">Edit Category</h3>
-                    <div class="mt-4">
+                    <h3 class="mt-4"> Orders </h3>
 
-                    <?php
+                    <div class="card my-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            Orders
+                        </div>
+                        <div class="card-body">
+                            <table id="datatablesSimple">
+                                <thead>
+                                    <tr>
+                                        <th>Sr no.</th>
+                                        <th>Order id</th>
+                                        <th>Product Name</th>
+                                        <th>Product Quantity</th>
+                                        <th>Total Price</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
 
-
-                    $sql = "SELECT * FROM `categories` WHERE `cat_id` = $category_id ";
-                    $result = mysqli_query($conn, $sql);
-                    
-                    $row = mysqli_fetch_assoc($result);
-                    $category_name = $row['cat_name'];
-
-                    ?>
-
-                        <form class="m-3 row d-flex flex-column" action="editcategory.php?cat_id=<?php echo $category_id ; ?> ">
-                            <div class="mb-3 col-6">
-                                <label for="editcatname" class="form-label pb-3">Category Name </label>
-                                <input type="text" class="form-control col-md-6" id="editcatname" name="editcatname" value="<?php echo $category_name ; ?> " required>
-                            </div>
-                            <div class="mt-2 col-6 ">
-                                <button type="submit" class="btn btn-primary col-4">Edit Category</button>
-                            </div>
-
-                        </form>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>547922</td>
+                                        <td>Redmi Note 10</td>
+                                        <td>2</td>
+                                        <td>40000</td>
+                                        <td>Delivered</td>
+                                        <td>Cancel Order</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>547922</td>
+                                        <td>Redmi Note 10</td>
+                                        <td>2</td>
+                                        <td>40000</td>
+                                        <td>Delivered</td>
+                                        <td>Cancel Order</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>547922</td>
+                                        <td>Redmi Note 10</td>
+                                        <td>2</td>
+                                        <td>40000</td>
+                                        <td>Delivered</td>
+                                        <td>Cancel Order</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>547922</td>
+                                        <td>Redmi Note 10</td>
+                                        <td>2</td>
+                                        <td>40000</td>
+                                        <td>Delivered</td>
+                                        <td>Cancel Order</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
 
