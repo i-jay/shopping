@@ -1,6 +1,5 @@
 <?php include '../assets/dbconnect.php';
-// htmlspecialchars_decode
-//hello shyam
+
 ?>
 <?php
 
@@ -206,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                                 echo
                                                 '<tr id = "row-' . $pid . '">
-                                                        <td class="text-center align-middle">' . $pid . '</td>
+                                                        <td class="text-center align-middle">' . $srno2 . '</td>
                                                         <td class="d-flex align-items-center justify-content-center"> <img src="' . $pimage . '" alt="" style="width: 50px; height: 100px; object-fit: cover;"> </td>
                                                         <td class="text-center align-middle">' . $pname . '</td>
                                                         <td class="text-center align-middle">' . $seller . '</td>
