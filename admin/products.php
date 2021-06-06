@@ -225,54 +225,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                         <div class="tab-pane fade" id="addproduct" role="tabpanel" aria-labelledby="contact-tab">
-                            <form class="m-3 row d-flex flex-column" action="products.php" method="POST" enctype="multipart/form-data">
+                            <form class="m-3 row d-flex" action="products.php" method="POST" enctype="multipart/form-data">
                                 <div class="mb-2 col-6">
-                                    <label for="pimage" class="form-label">Choose Image</label>
-                                    <input class="form-control col-md-4" type="file" id="pimage" name="pimage" value="" required>
-                                </div>
+                                    <div class="mb-2 col-10">
+                                        <label for="pimage" class="form-label">Choose Image</label>
+                                        <input class="form-control col-md-4" type="file" id="pimage" name="pimage" value="">
+                                    </div>
+                                    <div class="mb-2 col-10">
+                                        <label for="pname" class="form-label">Product Name</label>
+                                        <input type="text" class="form-control col-md-6" id="pname" name="pname">
+                                    </div>
+                                    <div class="mb-2 col-10">
+                                        <label for="info" class="form-label">Product Info</label>
+                                        <input type="text" class="form-control col-md-6" id="info" name="info">
+                                    </div>
+                                    <div class="mb-2 col-10">
+                                        <label for="quantity" class="form-label">Quantity</label>
+                                        <input type="number" class="form-control col-md-6" id="quantity" name="quantity">
+                                    </div>
+                                    <div class="mb-2 col-10">
+                                        <label for="keyword" class="form-label">Product Keyword</label>
+                                        <input type="text" class="form-control col-md-6" id="keyword" name="keyword">
+                                    </div>
+                                </div>    
                                 <div class="mb-2 col-6">
-                                    <label for="pname" class="form-label">Product Name</label>
-                                    <input type="text" class="form-control col-md-6" id="pname" name="pname" required>
-                                </div>
-                                <div class="mb-2 col-6">
-                                    <label for="info" class="form-label">Product Info</label>
-                                    <input type="text" class="form-control col-md-6" id="info" name="info" required>
-                                </div>
-                                <div class="mb-2 col-6">
-                                    <label for="quantity" class="form-label">Quantity</label>
-                                    <input type="number" class="form-control col-md-6" id="quantity" name="quantity" required>
-                                </div>
-                                <div class="mb-2 col-6">
-                                    <label for="category" class="form-label">Category</label>
-                                    <select class="form-select" aria-label="Default select example" name="category" required>       
-                                        <?php
-
-                                        $sql2 = "SELECT * FROM `categories`";
-                                        $result2 = mysqli_query($conn, $sql2);
-                                        $srno = 0;
-                                        while ($row = mysqli_fetch_assoc($result2)) {
-                                            $cat_name = $row['cat_name'];
-                                            $cat_id = $row['cat_id'];
-                                            $srno = $srno + 1;
-
-                                            echo
-                                            '
-                                            <option value="'.$cat_name.'">'.$cat_name.'</option> 
-                                        ';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="mb-2 col-6">
-                                    <label for="keyword" class="form-label">Product Keyword</label>
-                                    <input type="text" class="form-control col-md-6" id="keyword" name="keyword">
-                                </div>
-                                <div class="mb-2 col-6">
-                                    <label for="price" class="form-label">Price</label>
-                                    <input type="text" class="form-control col-md-6" id="price" name="price">
-                                </div>
-                                <div class="mt-2 col-6 ">
-                                    <button type="submit" class="btn btn-primary col-4">Add Product</button>
+                                    <div class="mb-2 col-10">
+                                        <label for="category" class="form-label">Category</label>
+                                        <input type="text" class="form-control col-md-6" id="category" name="category">
+                                    </div>
+                                    <div class="mb-2 col-10">
+                                        <label for="price" class="form-label">Price</label>
+                                        <input type="text" class="form-control col-md-6" id="price" name="price">
+                                    </div>
+                                    <div class="mt-4 col-10">
+                                        <button type="submit" class="btn btn-primary col-4">Add Product</button>
+                                    </div>
                                 </div>
 
                             </form>
