@@ -229,33 +229,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="mb-2 col-6">
                                     <div class="mb-2 col-10">
                                         <label for="pimage" class="form-label">Choose Image</label>
-                                        <input class="form-control col-md-4" type="file" id="pimage" name="pimage" value="">
+                                        <input class="form-control col-md-4" type="file" id="pimage" name="pimage" required>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="pname" class="form-label">Product Name</label>
-                                        <input type="text" class="form-control col-md-6" id="pname" name="pname">
+                                        <input type="text" class="form-control col-md-6" id="pname" name="pname" required>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="info" class="form-label">Product Info</label>
-                                        <input type="text" class="form-control col-md-6" id="info" name="info">
+                                        <input type="text" class="form-control col-md-6" id="info" name="info" required>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="quantity" class="form-label">Quantity</label>
-                                        <input type="number" class="form-control col-md-6" id="quantity" name="quantity">
+                                        <input type="number" class="form-control col-md-6" id="quantity" name="quantity" required>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="keyword" class="form-label">Product Keyword</label>
-                                        <input type="text" class="form-control col-md-6" id="keyword" name="keyword">
+                                        <input type="text" class="form-control col-md-6" id="keyword" name="keyword" required>
                                     </div>
-                                </div>    
+                                </div>
                                 <div class="mb-2 col-6">
                                     <div class="mb-2 col-10">
                                         <label for="category" class="form-label">Category</label>
-                                        <input type="text" class="form-control col-md-6" id="category" name="category">
+                                        <select class="form-select" aria-label="Default select example" name="category" required>
+                                            <?php
+
+                                            $sql2 = "SELECT * FROM `categories`";
+                                            $result2 = mysqli_query($conn, $sql2);
+                                            $srno = 0;
+                                            while ($row = mysqli_fetch_assoc($result2)) {
+                                                $cat_name = $row['cat_name'];
+                                                $cat_id = $row['cat_id'];
+                                                $srno = $srno + 1;
+
+                                                echo
+                                                '
+                                            <option value="' . $cat_name . '">' . $cat_name . '</option> 
+                                        ';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="price" class="form-label">Price</label>
-                                        <input type="text" class="form-control col-md-6" id="price" name="price">
+                                        <input type="text" class="form-control col-md-6" id="price" name="price" required>
                                     </div>
                                     <div class="mt-4 col-10">
                                         <button type="submit" class="btn btn-primary col-4">Add Product</button>
@@ -285,7 +302,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <script src="js/datatables-simple-demo.js"></script>
         <script>
             function del(id) {
-                let row = document.getElementById("row-"+id);
+                let row = document.getElementById("row-" + id);
                 let deleteProduct = document.getElementById("deleteProduct");
                 deleteProduct.innerHTML = row.getElementsByTagName("td")[2].innerText;
 
