@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
 
-    <!-- edit Modal code enda -->
+    <!-- edit Modal code end -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.php">Shopping</a>
@@ -211,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                         <td class="text-center align-middle">' . $seller . '</td>
                                                         <td class="text-center align-middle">' . $pcatname . '</td>
                                                         <td class="text-center align-middle">' . $price . '</td>
-                                                        <td class="text-center align-middle"><button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="del(' . $pid . ')">Edit</button></td>
+                                                        <td class="text-center align-middle"><a href="./editproduct.php?pid=' . $pid . '" class="btn btn-primary btn-sm">Edit</a></td>
                                                         <td class="text-center align-middle"><button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="del(' . $pid . ')">Delete</button></td>
                                                 </tr>
                                                         ';
