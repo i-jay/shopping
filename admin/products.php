@@ -251,7 +251,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="mb-2 col-6">
                                     <div class="mb-2 col-10">
                                         <label for="category" class="form-label">Category</label>
-                                        <select class="form-select" aria-label="Default select example" name="category" required>
+                                        <select class="form-select form-control" aria-label="Default select example" name="category" required>
                                             <?php
 
                                             $sql2 = "SELECT * FROM `categories`";

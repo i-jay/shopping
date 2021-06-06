@@ -6,6 +6,7 @@ if( isset($_GET['pid']) ){
     $product_id = $_GET["pid"];
 }
 
+// update data in product
 if(isset(($_POST['editcatname']))){
     $editcat_name = $_POST['editcatname'];
    
@@ -18,8 +19,20 @@ if(isset(($_POST['editcatname']))){
     else{
         $msg = "Locho Thai gayo.";
     }
-
 }
+
+//  fetch data sql from product
+
+    $sql2 = "SELECT * FROM `products` WHERE `product_id` = $product_id ";
+    $result2 = mysqli_query($conn, $sql2);
+
+    $row = mysqli_fetch_assoc($result2);
+    $pname = $row['product_name'];
+    $pinfo = $row['product_info'];
+    $quantity = $row['product_quantity'];
+    $category = $row['product_cat_name'];
+    $keyword = $row['product_keywords'];
+    $price = $row['product_price'];
   
 ?>
 
@@ -117,6 +130,11 @@ if(isset(($_POST['editcatname']))){
                 <div class="container-fluid px-4">
                     <!-- content code here -->
                     <h3 class="mt-4">Edit Products</h3>
+                    <?php
+
+                    
+
+                    ?>
                     <form class="m-3 row d-flex" action="products.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-2 col-6">
                                     <div class="mb-2 col-10">
@@ -125,35 +143,38 @@ if(isset(($_POST['editcatname']))){
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="pname" class="form-label">Product Name</label>
-                                        <input type="text" class="form-control col-md-6" id="pname" name="pname" required>
+                                        <input type="text" class="form-control col-md-6" id="pname" name="pname" value="<?php echo $pname; ?>" required>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="info" class="form-label">Product Info</label>
-                                        <input type="text" class="form-control col-md-6" id="info" name="info" required>
+                                        <input type="text" class="form-control col-md-6" id="info" name="info" value="<?php echo $pinfo; ?>" required>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="quantity" class="form-label">Quantity</label>
-                                        <input type="number" class="form-control col-md-6" id="quantity" name="quantity" required>
+                                        <input type="number" class="form-control col-md-6" id="quantity" name="quantity" value="<?php echo $quantity; ?>" required>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="keyword" class="form-label">Product Keyword</label>
-                                        <input type="text" class="form-control col-md-6" id="keyword" name="keyword" required>
+                                        <input type="text" class="form-control col-md-6" id="keyword" name="keyword" value="<?php echo $keyword; ?>" required>
                                     </div>
                                 </div>
                                 <div class="mb-2 col-6">
                                     <div class="mb-2 col-10">
                                         <label for="category" class="form-label">Category</label>
-                                        <select class="form-select" aria-label="Default select example" name="category" required>
+
+                                        <select class="form-select form-control" aria-label="Default select example" name="category" required>
                                             <?php
 
-                                            $sql2 = "SELECT * FROM `categories`";
+                                            $sql2 = "SELECT * FROM `categories` WHERE NOT `cat_name` = '$category'";
                                             $result2 = mysqli_query($conn, $sql2);
                                             $srno = 0;
+                                            echo '<option selected>'.$category.'</option>';
                                             while ($row = mysqli_fetch_assoc($result2)) {
                                                 $cat_name = $row['cat_name'];
                                                 $cat_id = $row['cat_id'];
                                                 $srno = $srno + 1;
 
+                                                
                                                 echo
                                                 '
                                             <option value="' . $cat_name . '">' . $cat_name . '</option> 
@@ -164,7 +185,7 @@ if(isset(($_POST['editcatname']))){
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="price" class="form-label">Price</label>
-                                        <input type="text" class="form-control col-md-6" id="price" name="price" required>
+                                        <input type="text" class="form-control col-md-6" id="price" name="price" value="<?php echo $price; ?>" required>
                                     </div>
                                     <div class="mt-4 col-10">
                                         <button type="submit" class="btn btn-primary col-4">Add Product</button>
