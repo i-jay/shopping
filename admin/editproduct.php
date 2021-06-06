@@ -1,3 +1,28 @@
+<?php
+
+include '../assets/dbconnect.php';  
+
+if( isset($_GET['pid']) ){
+    $product_id = $_GET["pid"];
+}
+
+if(isset(($_POST['editcatname']))){
+    $editcat_name = $_POST['editcatname'];
+   
+    $sql = "UPDATE categories SET `cat_name` = '$editcat_name' WHERE `cat_id`= $category_id ";
+    $result = mysqli_query($conn, $sql);
+
+    if($result){
+        header("location:categories.php");
+    }
+    else{
+        $msg = "Locho Thai gayo.";
+    }
+
+}
+  
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +58,7 @@
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.php">Shopping</a>
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 bg-primary px-2" id="sidebarToggle" href="#!" style="background: ; "><i
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 bg-primary px-2" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars" style="font-size: 25px; color: white;"></i></button>
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ms-4 me-0 me-md-3 my-2 my-md-0">
@@ -91,10 +116,44 @@
             <main>
                 <div class="container-fluid px-4">
                     <!-- content code here -->
-
-                    
-                    
-                    
+                    <h3 class="mt-4">Edit Products</h3>
+                    <form class="m-3 row d-flex" action="products.php" method="POST" enctype="multipart/form-data">
+                        <div class="mb-2 col-6">
+                            <div class="mb-2 col-10">
+                                <label for="pimage" class="form-label">Choose Image</label>
+                                <input class="form-control col-md-4" type="file" id="pimage" name="pimage" value="">
+                            </div>
+                            <div class="mb-2 col-10">
+                                <label for="pname" class="form-label">Product Name</label>
+                                <input type="text" class="form-control col-md-6" id="pname" name="pname">
+                            </div>
+                            <div class="mb-2 col-10">
+                                <label for="info" class="form-label">Product Info</label>
+                                <input type="text" class="form-control col-md-6" id="info" name="info">
+                            </div>
+                            <div class="mb-2 col-10">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control col-md-6" id="quantity" name="quantity">
+                            </div>
+                            <div class="mb-2 col-10">
+                                <label for="keyword" class="form-label">Product Keyword</label>
+                                <input type="text" class="form-control col-md-6" id="keyword" name="keyword">
+                            </div>
+                        </div>    
+                        <div class="mb-2 col-6">
+                            <div class="mb-2 col-10">
+                                <label for="category" class="form-label">Category</label>
+                                <input type="text" class="form-control col-md-6" id="category" name="category">
+                            </div>
+                            <div class="mb-2 col-10">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="text" class="form-control col-md-6" id="price" name="price">
+                            </div>
+                            <div class="mt-4 col-10">
+                                <button type="submit" class="btn btn-primary col-4">Add Product</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </main>
             <footer class="py-3 bg-light mt-auto">
