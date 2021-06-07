@@ -1,7 +1,8 @@
-<?php include '../assets/dbconnect.php';
-
-?>
 <?php
+include '../assets/dbconnect.php';
+
+ $addproduct = false;
+ $deleteproduct = false;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -9,6 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $deleteId = $_POST['deleteId'];
         $sql = "DELETE FROM `products` WHERE `products`.`product_id` = $deleteId";
         $result = mysqli_query($conn, $sql);
+
+        if ($result) {
+            $deleteproduct = true;
+        }
+
     } else {
 
         $pname = $_POST['pname'];
@@ -30,11 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Failed to upload image";
         }
 
-        $sql = "INSERT INTO `products` (`product_image` , `product_name`, `product_info`, `product_quantity`, `product_cat_name`, `seller_id`, `product_seller`, `product_price`, `created_at`, `updated_at`, `product_keywords`) VALUES ('$folder' ,'$pname', '$pinfo', '$quantity', '$category', '1', 'shopping', '$price', current_timestamp(), current_timestamp(), '$keyword')";
+        // $sql2 = "SELECT * FROM `categories` WHERE `cat_name` = '$category'";
+        // $result2 = mysqli_query($conn, $sql2);
+
+        // $row2 = mysqli_fetch_assoc($result2)
+        // $product_cat_id = $row2['cat_id'];
+        // `product_cat_id`
+        // '$product_cat_id'
+
+
+        $sql = "INSERT INTO `products` (`product_image` , `product_name`, `product_info`, `product_quantity`, `product_cat_name`, `seller_id`, `product_seller`, `product_price`,`product_keywords`, `created_at` ) VALUES ('$folder' ,'$pname', '$pinfo', '$quantity', '$category', '1', 'shopping', '$price', '$keyword', current_timestamp())";
         $result = mysqli_query($conn, $sql);
 
-        if (!$result) {
-            echo "locho thai gayo";
+        if ($result) {
+            $addproduct = true;
         }
     }
 }
@@ -158,6 +173,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div id="layoutSidenav_content">
             <main>
+                <?php
+                    if(isset($editproduct) && $editproduct == true){
+                        echo '<div class="mt-0 alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> Product has been Edit successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
+                    }
+
+                    if(isset($deleteproduct) && $deleteproduct == true){
+                        echo '<div class="mt-0 alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> Product has been delete successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
+                    }
+
+                    if(isset($addproduct) && $addproduct == true){
+                        echo '<div class="mt-0 alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> Product has been added successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
+                    }
+                ?>
                 <div class="container-fluid px-4">
                     <!-- content code here -->
                     <h3 class="mt-4">Products</h3>
@@ -183,6 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 <th>Sr no.</th>
                                                 <th>Image</th>
                                                 <th>Product Name</th>
+                                                <th>Product Info</th>
                                                 <th>Seller</th>
                                                 <th>Category</th>
                                                 <th>Price</th>
@@ -197,6 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             while ($row2 = mysqli_fetch_assoc($result2)) {
                                                 $pname = $row2['product_name'];
                                                 $pimage = $row2['product_image'];
+                                                $pinfo = $row2['product_info'];
                                                 $seller = $row2['product_seller'];
                                                 $pcatname = $row2['product_cat_name'];
                                                 $price = $row2['product_price'];
@@ -208,6 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                         <td class="text-center align-middle">' . $srno2 . '</td>
                                                         <td class="d-flex align-items-center justify-content-center"> <img src="' . $pimage . '" alt="" style="width: 50px; height: 100px; object-fit: cover;"> </td>
                                                         <td class="text-center align-middle">' . $pname . '</td>
+                                                        <td class="text-center align-middle">' . $pinfo . '</td>
                                                         <td class="text-center align-middle">' . $seller . '</td>
                                                         <td class="text-center align-middle">' . $pcatname . '</td>
                                                         <td class="text-center align-middle">' . $price . '</td>

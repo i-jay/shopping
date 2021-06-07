@@ -1,3 +1,11 @@
+<?php
+include './assets/dbconnect.php';
+
+    $sql = "SELECT * FROM `products`";
+    $result = mysqli_query($conn, $sql);
+   
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -107,107 +115,30 @@
         <h2 class="text-center my-4">Products</h2>
         <div class="d-flex m-2 flex-wrap justify-content-around">
 
-          <div class="card overflow-hidden m-2 " style="width: 190px;" >
-            <div onclick="location.href='/shopping/product.php';" style="cursor: pointer;">
-              <img src="images/mobile1.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-              <div class="card-body d-flex align-items-center justify-content-center flex-column">
-                <h6 class="card-title text-center"><b>Redmi Note 10 Pro</b></h6>
-                <h6>Price : 15999/-</h6>
+        <?php
+
+            while ($row = mysqli_fetch_assoc($result)) {
+              $pname = $row['product_name'];
+              $pimage = $row['product_image'];
+              $price = $row['product_price'];
+              $pid = $row['product_id'];
+              $link = "'/shopping/product.php?pid=$pid'";
+
+              echo '<div class="card overflow-hidden m-2 " style="width: 190px;" >
+              <div onclick="location.href='. $link .'" style="cursor: pointer">
+                <img src="./admin/'. $pimage .'" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
+                <div class="card-body d-flex align-items-center justify-content-center flex-column">
+                  <h6 class="card-title text-center"><b>' . $pname .'</b></h6>
+                  <h6>Price : ' . $price . '/-</h6>
+                </div>
               </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-center">
-              <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-          <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/s1.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Samsung Galaxy M31</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-          <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/s2.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Samsung Galaxy F62</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-          <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/a1.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Apple iPhone 12</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-          <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/a2.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Apple iPhone 11</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-          <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/r1.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Realme Narzo 30A</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-          <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/r2.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Realme Narzo 20</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-          <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/o1.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Oppo A12 </b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div> <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/o2.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Oppo A53</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-        </div>
-          </div> <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/mi2.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Redmi Note 9 Pro</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div> <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/mi3.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Redmi Note 9</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div> <div class="card overflow-hidden m-2 " style="width: 190px;">
-            <img src="images/s2.jpeg" style="width: 180px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-            <div class="card-body d-flex align-items-center justify-content-center flex-column">
-              <h6 class="card-title text-center"><b>Samsung Galaxy F62</b></h6>
-              <h6>Price : 15999/-</h6>
-              <a href="./product.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-         
-          
-         
-          
-         
+              <div class="d-flex align-items-center justify-content-center">
+                <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
+              </div>
+            </div>';
+            }
+
+        ?>
         </div>
       </div>
      

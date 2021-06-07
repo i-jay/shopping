@@ -6,7 +6,7 @@ if( isset($_GET['pid']) ){
     $product_id = $_GET["pid"];
 }
 
-
+$editproduct = false;
 // update data in product
 if(isset(($_POST['submit']))){
 
@@ -30,16 +30,17 @@ if(isset(($_POST['submit']))){
             echo "Failed to upload image";
         }
         
-        $sql = "UPDATE products SET `product_image` = '$folder' , `product_name` = '$pname', `product_info` = '$pinfo', `product_quantity` = '$quantity', `product_cat_name` = '$category' , `product_price` = '$price', `updated_at` = current_timestamp(),  `product_keywords` = '$keyword'  WHERE `product_id` = $product_id";
+        $sql = "UPDATE products SET `product_image` = '$folder' , `product_name` = '$pname', `product_info` = '$pinfo', `product_quantity` = '$quantity', `product_cat_name` = '$category' , `product_price` = '$price', `product_keywords` = '$keyword' , `updated_at` = current_timestamp()  WHERE `product_id` = $product_id";
     }
     else{
         
-        $sql = "UPDATE products SET `product_name` = '$pname', `product_info` = '$pinfo', `product_quantity` = '$quantity', `product_cat_name` = '$category' , `product_price` = '$price', `updated_at` = current_timestamp(), `product_keywords` = '$keyword' WHERE `product_id` = $product_id";
+        $sql = "UPDATE products SET `product_name` = '$pname', `product_info` = '$pinfo', `product_quantity` = '$quantity', `product_cat_name` = '$category' , `product_price` = '$price', `product_keywords` = '$keyword', `updated_at` = current_timestamp() WHERE `product_id` = $product_id";
     }
     
     $result = mysqli_query($conn, $sql);
 
     if($result){
+        $editproduct = true;
         header("location:products.php");
     }
     else{

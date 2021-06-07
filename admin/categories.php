@@ -1,6 +1,9 @@
 <?php
 include '../assets/dbconnect.php';
 
+$addcategory = false;
+$deletecategory = false;
+$editcategory = false;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['snoEdit'])) {
@@ -9,11 +12,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $sql = "UPDATE `categories` SET `cat_name` = '$cat_name' WHERE `categories`.`cat_id` = $cat_id";
         $result = mysqli_query($conn, $sql);
+
+        if ($result) {
+            $editcategory = true;
+        }
     }
     else if(isset($_POST['deleteId'])){
         $deleteId = $_POST['deleteId'];
         $sql = "DELETE FROM `categories` WHERE `categories`.`cat_id` = $deleteId";
         $result = mysqli_query($conn, $sql);
+
+        if ($result) {
+            $deletecategory = true;
+        }
     }
     else{
         $cat_name = $_POST['catname'];
@@ -21,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "INSERT INTO `categories` (`cat_name`) VALUES ('$cat_name')";
         $result = mysqli_query($conn, $sql);
 
-        if (!$result) {
-            echo "locho thai gayo";
+        if ($result) {
+            $addcategory = true;
         }
     }
 }
@@ -182,9 +193,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div id="layoutSidenav_content">
             <main>
+                <?php
+                    if(isset($addcategory) && $addcategory == true){
+                        echo '<div class="mt-0 alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> Category has been added successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
+                    }
+
+                    if(isset($editcategory) && $editcategory == true){
+                        echo '<div class="mt-0 alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> Category has been edit successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
+                    }
+
+                    if(isset($deletecategory) && $deletecategory == true){
+                        echo '<div class="mt-0 alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> Category has been Delete successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>';
+                    }
+                ?>
                 <div class="container-fluid px-4">
-
-
                     <!-- content code here -->
                     <h3 class="mt-4">Categories</h3>
                     <ul class="nav nav-pills my-4" id="pills-tab" role="tablist">
