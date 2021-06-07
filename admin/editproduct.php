@@ -6,15 +6,41 @@ if( isset($_GET['pid']) ){
     $product_id = $_GET["pid"];
 }
 
+
 // update data in product
-if(isset(($_POST['editcatname']))){
-    $editcat_name = $_POST['editcatname'];
-   
-    $sql = "UPDATE categories SET `cat_name` = '$editcat_name' WHERE `cat_id`= $category_id ";
+if(isset(($_POST['submit']))){
+
+    $pname = $_POST['pname'];
+    $pinfo = $_POST['info'];
+    $quantity = $_POST['quantity'];
+    $category = $_POST['category'];
+    $keyword = $_POST['keyword'];
+    $price = $_POST['price'];
+
+    if(isset($_FILES['pimage']['name']) && $_FILES['pimage']['name']!=""){
+
+        $image = $_FILES['pimage'];
+        $filename = $image['name'];
+        $tempname = $_FILES['pimage']['tmp_name'];
+        $folder = "image/".$filename;
+        
+        if (move_uploaded_file($tempname, $folder)) {
+            echo "Image uploaded successfully";
+        } else {
+            echo "Failed to upload image";
+        }
+        
+        $sql = "UPDATE products SET `product_image` = '$folder' , `product_name` = '$pname', `product_info` = '$pinfo', `product_quantity` = '$quantity', `product_cat_name` = '$category' , `product_price` = '$price', `updated_at` = current_timestamp(),  `product_keywords` = '$keyword'  WHERE `product_id` = $product_id";
+    }
+    else{
+        
+        $sql = "UPDATE products SET `product_name` = '$pname', `product_info` = '$pinfo', `product_quantity` = '$quantity', `product_cat_name` = '$category' , `product_price` = '$price', `updated_at` = current_timestamp(), `product_keywords` = '$keyword' WHERE `product_id` = $product_id";
+    }
+    
     $result = mysqli_query($conn, $sql);
 
     if($result){
-        header("location:categories.php");
+        header("location:products.php");
     }
     else{
         $msg = "Locho Thai gayo.";
@@ -22,17 +48,18 @@ if(isset(($_POST['editcatname']))){
 }
 
 //  fetch data sql from product
+    
+$sql2 = "SELECT * FROM `products` WHERE `product_id` = $product_id ";
+$result2 = mysqli_query($conn, $sql2);
 
-    $sql2 = "SELECT * FROM `products` WHERE `product_id` = $product_id ";
-    $result2 = mysqli_query($conn, $sql2);
-
-    $row = mysqli_fetch_assoc($result2);
-    $pname = $row['product_name'];
-    $pinfo = $row['product_info'];
-    $quantity = $row['product_quantity'];
-    $category = $row['product_cat_name'];
-    $keyword = $row['product_keywords'];
-    $price = $row['product_price'];
+$row = mysqli_fetch_assoc($result2);
+$pname = $row['product_name'];
+$pinfo = $row['product_info'];
+$pimage = $row['product_image'];
+$quantity = $row['product_quantity'];
+$category = $row['product_cat_name'];
+$keyword = $row['product_keywords'];
+$price = $row['product_price'];
   
 ?>
 
@@ -130,40 +157,42 @@ if(isset(($_POST['editcatname']))){
                 <div class="container-fluid px-4">
                     <!-- content code here -->
                     <h3 class="mt-4">Edit Products</h3>
-                    <?php
-
-                    
-
-                    ?>
-                    <form class="m-3 row d-flex" action="products.php" method="POST" enctype="multipart/form-data">
+                        <!-- <?php
+                        echo $productimage; 
+                        ?> -->
+                    <form class="m-3 row d-flex" action="editproduct.php?pid=<?php echo $product_id; ?>" method="POST" enctype="multipart/form-data">
                     <div class="mb-2 col-6">
                                     <div class="mb-2 col-10">
-                                        <label for="pimage" class="form-label">Choose Image</label>
-                                        <input class="form-control col-md-4" type="file" id="pimage" name="pimage" required>
+                                        <div class="mb-2 col-10 d-flex justify-content-center">
+                                            <img src="<?php echo $pimage ; ?>" alt="" style="width: 75px; height: 150px; object-fit: cover;">
+                                        </div>
+                                        <label for="pimage" class="form-label mt-2">Choose image if you want to change.</label>
+                                        <input class="form-control col-md-4" type="file" id="pimage" name="pimage">
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="pname" class="form-label">Product Name</label>
-                                        <input type="text" class="form-control col-md-6" id="pname" name="pname" value="<?php echo $pname; ?>" required>
+                                        <input type="text" class="form-control col-md-6" id="pname" name="pname" value="<?php echo $pname; ?>">
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="info" class="form-label">Product Info</label>
-                                        <input type="text" class="form-control col-md-6" id="info" name="info" value="<?php echo $pinfo; ?>" required>
+                                        <input type="text" class="form-control col-md-6" id="info" name="info" value="<?php echo $pinfo; ?>">
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="quantity" class="form-label">Quantity</label>
-                                        <input type="number" class="form-control col-md-6" id="quantity" name="quantity" value="<?php echo $quantity; ?>" required>
-                                    </div>
-                                    <div class="mb-2 col-10">
-                                        <label for="keyword" class="form-label">Product Keyword</label>
-                                        <input type="text" class="form-control col-md-6" id="keyword" name="keyword" value="<?php echo $keyword; ?>" required>
+                                        <input type="number" class="form-control col-md-6" id="quantity" name="quantity" value="<?php echo $quantity; ?>">
                                     </div>
                                 </div>
                                 <div class="mb-2 col-6">
                                     <div class="mb-2 col-10">
+                                        <label for="keyword" class="form-label">Product Keyword</label>
+                                        <input type="text" class="form-control col-md-6" id="keyword" name="keyword" value="<?php echo $keyword; ?>">
+                                    </div>
+                                    <div class="mb-2 col-10">
                                         <label for="category" class="form-label">Category</label>
 
-                                        <select class="form-select form-control" aria-label="Default select example" name="category" required>
+                                        <select class="form-select form-control" aria-label="Default select example" name="category">
                                             <?php
+                                           
 
                                             $sql2 = "SELECT * FROM `categories` WHERE NOT `cat_name` = '$category'";
                                             $result2 = mysqli_query($conn, $sql2);
@@ -174,24 +203,21 @@ if(isset(($_POST['editcatname']))){
                                                 $cat_id = $row['cat_id'];
                                                 $srno = $srno + 1;
 
-                                                
-                                                echo
-                                                '
-                                            <option value="' . $cat_name . '">' . $cat_name . '</option> 
-                                        ';
+                                                echo '<option value="' . $cat_name . '">' . $cat_name . '</option>';
                                             }
                                             ?>
                                         </select>
                                     </div>
                                     <div class="mb-2 col-10">
                                         <label for="price" class="form-label">Price</label>
-                                        <input type="text" class="form-control col-md-6" id="price" name="price" value="<?php echo $price; ?>" required>
+                                        <input type="text" class="form-control col-md-6" id="price" name="price" value="<?php echo $price; ?>">
                                     </div>
+                                    <!-- <input type="hidden" name="editimage" id="editimage"> -->
                                     <div class="mt-4 col-10">
-                                        <button type="submit" class="btn btn-primary col-4">Add Product</button>
+                                        <button type="submit" class="btn btn-primary col-4" name="submit">Edit Product</button>
                                     </div>
                                 </div>
-                    </form>
+                            </form>
                 </div>
             </main>
             <footer class="py-3 bg-light mt-auto">
@@ -207,8 +233,6 @@ if(isset(($_POST['editcatname']))){
         crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
 
