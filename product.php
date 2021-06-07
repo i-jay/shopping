@@ -1,3 +1,20 @@
+<?php
+include './assets/dbconnect.php';
+
+    $pid = $_GET['pid'];
+
+    $sql = "SELECT * FROM `products` WHERE `product_id` = $pid";
+    $result = mysqli_query($conn, $sql);
+
+    $row = mysqli_fetch_assoc($result);
+
+    $pname = $row['product_name'];
+    $pimage = $row['product_image'];
+    $price = $row['product_price'];
+    $pinfo = $row['product_info'];
+   
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -26,7 +43,7 @@
 
         <div class="product-photo ms-5">
             <div class="card overflow-hidden m-2 " style="width: 400px;">
-                <img src="images/mobile1.jpeg" style="width: 300px; object-fit: fill;"
+                <img src="./admin/<?php echo $pimage;  ?>" style="width: 300px; object-fit: fill;"
                     class="card-img-top px-5 py-3 mx-auto" alt="...">
             </div>
             <div class="buttons d-flex justify-content-center" style="width: 400px;">
@@ -37,8 +54,8 @@
             </div>
         </div>
         <div class="product-info p-4">
-            <h3>REDMI Note 10 Pro (Vintage Bronze, 128 GB) (8 GB RAM)</h3>
-            <h4 class="my-3"> Price : ₹21,690</h4>
+            <h3><?php echo $pname;  ?></h3>
+            <h4 class="my-3"> Price : ₹<?php echo $price;  ?></h4>
             <h5 class="my-3">Available offers</h5>
             <ul>
                 <li>Bank Offer10% off on HDFC Bank Debit and Credit Cards EMI transactions, up to ₹1000. On Orders of
@@ -55,10 +72,7 @@
             </ul>
             <h5 class="my-3">Specification</h5>
             <ul>
-                <li>8 GB RAM | 128 GB ROM</li>
-                <li>16.94 cm (6.67 inch) Display</li>
-                <li>5020 mAh Battery</li>
-                <li>5020 mAh Battery</li>
+                <li><?php echo $pinfo;  ?></li>
             </ul>
         </div>
 

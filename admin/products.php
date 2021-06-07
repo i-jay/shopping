@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $filename = $image['name'];
         $tempname = $_FILES['pimage']['tmp_name'];
-        $folder = "image/" . $filename;
+        $folder = "images/products/" . $filename;
 
         if (move_uploaded_file($tempname, $folder)) {
             echo "Image uploaded successfully";

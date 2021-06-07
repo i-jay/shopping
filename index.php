@@ -133,7 +133,7 @@ include './assets/dbconnect.php';
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-center">
-                <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
+                <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Add to Cart</a>
               </div>
             </div>';
             }
