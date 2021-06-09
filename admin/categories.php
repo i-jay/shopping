@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $cat_id = $_POST['snoEdit'];
         $cat_name = $_POST['editcat'];
 
-        $sql = "UPDATE `categories` SET `cat_name` = '$cat_name' WHERE `categories`.`cat_id` = $cat_id";
+        $sql = "UPDATE `category` SET `cat_name` = '$cat_name' WHERE `category`.`cat_id` = $cat_id";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     else if(isset($_POST['deleteId'])){
         $deleteId = $_POST['deleteId'];
-        $sql = "DELETE FROM `categories` WHERE `categories`.`cat_id` = $deleteId";
+        $sql = "DELETE FROM `category` WHERE `category`.`cat_id` = $deleteId";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else{
         $cat_name = $_POST['catname'];
 
-        $sql = "INSERT INTO `categories` (`cat_name`) VALUES ('$cat_name')";
+        $sql = "INSERT INTO `category` (`cat_name`) VALUES ('$cat_name')";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
@@ -248,7 +248,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                             <?php
 
-                                            $sql2 = "SELECT * FROM `categories`";
+                                            $sql2 = "SELECT * FROM `category`";
                                             $result2 = mysqli_query($conn, $sql2);
                                             $srno = 0;
                                             while ($row = mysqli_fetch_assoc($result2)) {

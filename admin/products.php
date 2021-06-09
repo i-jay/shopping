@@ -294,7 +294,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <select class="form-select form-control" aria-label="Default select example" name="category" required>
                                             <?php
 
-                                            $sql2 = "SELECT * FROM `categories`";
+                                            $sql2 = "SELECT * FROM `category`";
                                             $result2 = mysqli_query($conn, $sql2);
                                             $srno = 0;
                                             while ($row = mysqli_fetch_assoc($result2)) {

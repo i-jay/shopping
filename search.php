@@ -59,10 +59,38 @@
     .results .product:hover .product-info h5{
         color: #0d6efd;
     }
+    .category{
+        height: 40px;
+    }
+    .links{
+        list-style: none;
+    }
+    .links li{
+        margin-right: 25px;
+        line-height: 40px;
+    }
+    .links li a{
+        text-decoration: none;
+        font-size: 18px;
+    }
 </style>
   </head>
   <body>
     <?php include './assets/navbar.php'; ?>
+    <div class="category container">
+    <ul class="links d-flex">
+<li><a href=""> Mobile </a></li>
+<li><a href=""> Laptop </a></li>
+<li><a href=""> Gaming </a></li>
+<li><a href=""> Fashion </a></li>
+<li><a href=""> Sports </a></li>
+<li><a href=""> Watches </a></li>
+<li><a href=""> Books </a></li>
+<li><a href=""> Shoes </a></li>
+<li><a href=""> Camera </a></li>
+<li><a href=""> Headphones </a></li>
+    </ul>
+    </div>
 
     <div class="search d-flex">
         <div class="filter p-2 ps-4">
