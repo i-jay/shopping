@@ -24,8 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $keyword = $_POST['keyword'];
         $price = $_POST['price'];
 
-        $image = $_FILES['pimage'];
+       
+        $sql2 = "SELECT * FROM `category` WHERE `cat_name` = '$category'";
+        $result2 = mysqli_query($conn, $sql2);
 
+        $row2 = mysqli_fetch_assoc($result2);
+        $pcat_id = $row2['cat_id'];
+        
+
+
+        $image = $_FILES['pimage'];
         $filename = $image['name'];
         $tempname = $_FILES['pimage']['tmp_name'];
         $folder = "images/products/" . $filename;
@@ -36,16 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Failed to upload image";
         }
 
-        // $sql2 = "SELECT * FROM `categories` WHERE `cat_name` = '$category'";
-        // $result2 = mysqli_query($conn, $sql2);
-
-        // $row2 = mysqli_fetch_assoc($result2)
-        // $product_cat_id = $row2['cat_id'];
-        // `product_cat_id`
-        // '$product_cat_id'
 
 
-        $sql = "INSERT INTO `products` (`product_image` , `product_name`, `product_info`, `product_quantity`, `product_cat_name`, `seller_id`, `product_seller`, `product_price`,`product_keywords`, `created_at` ) VALUES ('$folder' ,'$pname', '$pinfo', '$quantity', '$category', '1', 'shopping', '$price', '$keyword', current_timestamp())";
+        $sql = "INSERT INTO `products` ( `product_cat_id`, `product_image` , `product_name`, `product_info`, `product_quantity`, `product_cat_name`, `seller_id`, `product_seller`, `product_price`,`product_keywords`, `created_at` ) VALUES ('$pcat_id', '$folder' ,'$pname', '$pinfo', '$quantity', '$category', '1', 'shopping', '$price', '$keyword', current_timestamp())";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {

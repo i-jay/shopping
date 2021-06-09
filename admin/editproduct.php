@@ -195,7 +195,7 @@ $price = $row['product_price'];
                                             <?php
                                            
 
-                                            $sql2 = "SELECT * FROM `categories` WHERE NOT `cat_name` = '$category'";
+                                            $sql2 = "SELECT * FROM `category` WHERE NOT `cat_name` = '$category'";
                                             $result2 = mysqli_query($conn, $sql2);
                                             $srno = 0;
                                             echo '<option selected>'.$category.'</option>';
