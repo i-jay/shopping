@@ -112,8 +112,9 @@ $price = $row['product_price'];
         </form>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-auto me-3 me-lg-4">
-            <li class="d-flex align-items-center">
-                <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+        <li class="d-flex align-items-center me-5"><a href="../index.php" class="btn btn-primary btn-sm logoutbtn">Go to Website</a></li>
+            <li class="d-flex align-items-center ms-2">
+                <a class="nav-link me-2" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fas fa-user me-2"></i> Shyam</a>
                 <a href="./logout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
             </li>
@@ -165,7 +166,7 @@ $price = $row['product_price'];
                     <div class="mb-2 col-6">
                                     <div class="mb-2 col-10">
                                         <div class="mb-2 col-10 d-flex justify-content-center">
-                                            <img src="<?php echo $pimage ; ?>" alt="" style="width: 75px; height: 150px; object-fit: cover;">
+                                            <img src="<?php echo $pimage ; ?>" alt="" style="width: 100px; object-fit: cover;">
                                         </div>
                                         <label for="pimage" class="form-label mt-2">Choose image if you want to change.</label>
                                         <input class="form-control col-md-4" type="file" id="pimage" name="pimage">

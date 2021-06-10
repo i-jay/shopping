@@ -151,8 +151,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-auto me-3 me-lg-4">
-            <li class="d-flex align-items-center">
-                <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user me-2"></i> Shyam</a>
+        <li class="d-flex align-items-center me-5"><a href="../index.php" class="btn btn-primary btn-sm logoutbtn">Go to Website</a></li>
+            <li class="d-flex align-items-center ms-2">
+                <a class="nav-link me-2" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="fas fa-user me-2"></i> Shyam</a>
                 <a href="./logout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
             </li>
         </ul>

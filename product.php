@@ -33,6 +33,9 @@ include './assets/dbconnect.php';
       .navbarsearch{
         width: 450px;
       }
+      .info{
+        width:300px;
+      }
   </style>
 </head>
 
@@ -43,7 +46,7 @@ include './assets/dbconnect.php';
 
         <div class="product-photo ms-5">
             <div class="card overflow-hidden m-2 " style="width: 400px;">
-                <img src="./admin/<?php echo $pimage;  ?>" style="width: 300px; object-fit: fill;"
+                <img src="./admin/<?php echo $pimage;  ?>" style="width: 400px; object-fit: fill;"
                     class="card-img-top px-5 py-3 mx-auto" alt="...">
             </div>
             <div class="buttons d-flex justify-content-center" style="width: 400px;">
@@ -56,6 +59,10 @@ include './assets/dbconnect.php';
         <div class="product-info p-4">
             <h3><?php echo $pname;  ?></h3>
             <h4 class="my-3"> Price : ₹<?php echo $price;  ?></h4>
+            <h5 class="my-3">Specification</h5>
+            <ul>
+                <li class="info"><?php echo $pinfo;  ?></li>
+            </ul>
             <h5 class="my-3">Available offers</h5>
             <ul>
                 <li>Bank Offer10% off on HDFC Bank Debit and Credit Cards EMI transactions, up to ₹1000. On Orders of
@@ -66,13 +73,9 @@ include './assets/dbconnect.php';
             </ul>
             <h5 class="my-2">Easy Payment Options</h5>
             <ul>
-                <li>No cost EMI starting from ₹3,615/month</li>
+                <li>No cost EMI</li>
                 <li>Cash on Delivery</li>
                 <li>Net banking & Credit/ Debit/ ATM card</li>
-            </ul>
-            <h5 class="my-3">Specification</h5>
-            <ul>
-                <li><?php echo $pinfo;  ?></li>
             </ul>
         </div>
 
