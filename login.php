@@ -11,17 +11,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
    $result = mysqli_query($conn, $checkemail);
    $row = mysqli_num_rows($result);
        if($row == 1){
-           $sql = "SELECT * FROM `users` WHERE `email` = '$email' AND `password` = '$password' ";
-           $result = mysqli_query($conn, $sql);
-           $row = mysqli_num_rows($result);
-           if($row == 1){
+            $sql = "SELECT * FROM `users` WHERE `email` = '$email' AND `password` = '$password' ";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_num_rows($result);
+            if($row == 1){
             session_start();
             $sql2 = "SELECT * FROM `users` WHERE `email` = '$email' ";
             $result2 = mysqli_query($conn, $sql2);
             $row = mysqli_fetch_assoc($result2);
             $fname = $row['firstname'];
-            $_SESSION['firstname'] = $fname ;
+            $userid = $row['user_id'];
+            
             $_SESSION['loggedin'] = true ;
+            $_SESSION['userid'] = $userid ;
+            $_SESSION['firstname'] = $fname ;
 
            header('location:index.php') ;
            }

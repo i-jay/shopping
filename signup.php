@@ -19,6 +19,11 @@ $row = mysqli_num_rows($result);
             $result = mysqli_query($conn, $insert);
             if($result){
                 session_start();
+                $sql2 = "SELECT * FROM `users` WHERE `email` = '$email' ";
+                $result2 = mysqli_query($conn, $sql2);
+                $row = mysqli_fetch_assoc($result2);
+                $userid = $row['user_id'];
+                $_SESSION['userid'] = $userid ;
                 $_SESSION['loggedin'] = true ;
                 $_SESSION['firstname'] = $fname ;
                header('location:index.php') ;

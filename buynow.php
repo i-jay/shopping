@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -72,7 +75,11 @@
 </head>
 
 <body>
-    <?php include './assets/navbar.php'; ?>
+    <?php include './assets/navbar.php';
+    if(!isset($_SESSION['loggedin'])){
+        header('location:login.php'); 
+      }
+    ?>
 
     <div class="buynow overflow-hidden">
         <div class="left ms-3 my-2 d-inline-block float-start">

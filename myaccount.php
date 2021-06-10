@@ -1,3 +1,6 @@
+<?php
+include './assets/dbconnect.php';
+?>
 <!doctype html>
 <html lang="en">
 
@@ -62,7 +65,24 @@
 </head>
 
 <body>
-  <?php include './assets/navbar.php'; ?>
+  <?php include './assets/navbar.php'; 
+
+  
+  if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+    $userid =  $_SESSION['userid'];
+
+    $sql = "SELECT * FROM `users` WHERE `user_id` = $userid";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $fname = $row['firstname'];
+    $lname = $row['lastname'];
+    $email = $row['email'];
+    $phoneno = $row['phone_number'];
+  }
+  else{
+    header('location:login.php');
+  }
+  ?>
 
   <div class="account overflow-hidden">
     <div class="account-info container pt-3 my-3">
@@ -71,6 +91,7 @@
         <a href="./myorder.php" class="btn btn-primary ">My Order</a>
       </div>
       <hr class="my-2">
+      
       <div class="info p-3">
         <h5>Personal Information</h5>
         <div>
@@ -78,13 +99,13 @@
               <div class="col g-2">
                 <div class="col-md-4 mb-3">
                   <div class="form-floating">
-                    <input type="email" class="form-control col-md-3" id="fname" placeholder="" value="Shyam" disabled>
+                    <input type="email" class="form-control col-md-3" id="fname" placeholder="" value="<?php echo $fname; ?>" disabled>
                     <label for="fname">First Name</label>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-floating">
-                    <input type="email" class="form-control" id="lname" placeholder="" value="Odedra" disabled>
+                    <input type="email" class="form-control" id="lname" placeholder="" value="<?php echo $lname; ?>" disabled>
                     <label for="lname">Last Name</label>
                   </div>
                 </div>
@@ -96,21 +117,11 @@
             <h5 class="mt-1 mb-2 text-center">Profile Picture</h5>
             <img class="my-1" src="images/profile.jpeg" alt="profile-image">
           </div>
-        <div class="mail d-flex my-3">
-          <h5 class="pt-1">Gender</h5> 
-          <div class="name mx-3">
-            <div class="row g-2">
-              <div class="col-md-4">
-                <input type="email" class="form-control col-md-3" id="gender" placeholder="" value="Male" disabled>
-              </div>
-            </div>
-          </div>
-        </div>
         <h5>Email Address</h5>
         <div class="name my-3">
           <div class="row g-2">
             <div class="col-md-4">
-              <input type="email" class="form-control col-md-3" id="email" placeholder="" value="shopping1234@gmail.com" disabled>
+              <input type="email" class="form-control col-md-3" id="email" placeholder="" value="<?php echo $email; ?>" disabled>
             </div>
           </div>
         </div>
@@ -118,7 +129,7 @@
         <div class="name my-3">
           <div class="row g-2">
             <div class="col-md-4">
-              <input type="email" class="form-control col-md-3" id="phonenumber" placeholder="" value="12345678910" disabled>
+              <input type="email" class="form-control col-md-3" id="phonenumber" placeholder="" value="<?php echo $phoneno; ?>" disabled>
             </div>
           </div>
         </div>
