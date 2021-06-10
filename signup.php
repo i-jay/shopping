@@ -1,3 +1,38 @@
+<?php
+$exist_email = false ;
+$invalidpass = false ;
+include './assets/dbconnect.php';
+if($_SERVER['REQUEST_METHOD']=='POST'){
+   $fname = $_POST['fname'];
+   $lname = $_POST['lname'];
+   $email = $_POST['email'];
+   $phoneno = $_POST['phoneno'];
+   $password = $_POST['password'];
+   $cpassword = $_POST['cpassword'];
+
+$checkemail = "SELECT * FROM `users` WHERE `email` = '$email' ";
+$result = mysqli_query($conn, $checkemail);
+$row = mysqli_num_rows($result);
+    if($row == 0){
+        if($password == $cpassword ){
+            $insert = "INSERT INTO `users` (`firstname`, `lastname`, `email`, `phone_number`, `password`,`created_at`) VALUES ('$fname', '$lname','$email',$phoneno,'$password',current_timestamp())";
+            $result = mysqli_query($conn, $insert);
+            if($result){
+                session_start();
+                $_SESSION['loggedin'] = true ;
+                $_SESSION['firstname'] = $fname ;
+               header('location:index.php') ;
+            }
+        }
+        else{
+            $invalidpass = true ;
+        }  
+    }
+    else{
+        $exist_email = true ; 
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -63,8 +98,20 @@
 </head>
 
 <body>
-    <?php include './assets/navbar.php'; ?>
-
+    <?php include './assets/navbar.php'; 
+    if( $exist_email == true){
+        echo '<div class="mt-0 alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Oops!</strong> Email already exist.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+    }
+    if( $invalidpass == true){
+        echo '<div class="mt-0 alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Oops!</strong> Password does not match
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+    }
+    ?>
     <div class="container mt-1 pt-3 d-flex align-items-center justify-content-center flex-column">
         <div class="title">
             <h2 class="text-center my-1 mb-4">SignUp</h2>

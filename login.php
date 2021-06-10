@@ -1,3 +1,39 @@
+<?php
+$invalidemail = false ;
+$invalidpass = false ;
+include './assets/dbconnect.php';
+if($_SERVER['REQUEST_METHOD']=='POST'){
+   $email = $_POST['email'];
+   $password = $_POST['password'];
+   
+
+   $checkemail = "SELECT * FROM `users` WHERE `email` = '$email' ";
+   $result = mysqli_query($conn, $checkemail);
+   $row = mysqli_num_rows($result);
+       if($row == 1){
+           $sql = "SELECT * FROM `users` WHERE `email` = '$email' AND `password` = '$password' ";
+           $result = mysqli_query($conn, $sql);
+           $row = mysqli_num_rows($result);
+           if($row == 1){
+            session_start();
+            $sql2 = "SELECT * FROM `users` WHERE `email` = '$email' ";
+            $result2 = mysqli_query($conn, $sql2);
+            $row = mysqli_fetch_assoc($result2);
+            $fname = $row['firstname'];
+            $_SESSION['firstname'] = $fname ;
+            $_SESSION['loggedin'] = true ;
+
+           header('location:index.php') ;
+           }
+           else{
+            $invalidpass = true ; 
+        }
+       }
+    else{
+        $invalidemail = true ; 
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -25,7 +61,8 @@
       width: 450px;
     }
     .form {
-        min-height: 310px;
+        /* min-height: 310px; */
+        min-height: 55vh;
     }
 
     p {
@@ -70,16 +107,27 @@
 </style>
   </head>
   <body>
-    <?php include './assets/navbar.php'; ?>
-
+    <?php include './assets/navbar.php';
+    if($invalidemail == true){
+        echo '<div class="mt-0 alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Oops!</strong> Email does not exist
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+    }
+    if($invalidpass == true){
+        echo '<div class="mt-0 alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Oops!</strong> Password does not match
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+    } ?>
     <div class="container mt-4 pt-3 d-flex align-items-center justify-content-center flex-column">
         <h2 class="text-center my-4 mb-0 account">Login to Shopping</h2>
         <form class="align-items-center form my-2" method="post" action="login.php">
             <div class="form-col">
                 <div class="col my-2 live">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control lginput" id="username" name="username" maxlength = "15" placeholder="Username"
-                        required>
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control lginput" id="email" name="email" maxlength="20"
+                        placeholder="Email" required>
                 </div>
                 <div class="col my-2 live">
                     <label for="password">Password</label>
