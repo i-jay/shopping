@@ -1,5 +1,23 @@
 <?php
 include './assets/dbconnect.php';  
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_address'])){
+
+  $fullname = $_POST['address_fullname'];
+  $phoneno = $_POST['address_phoneno'];
+  $address = $_POST['address_address'];
+  $city = $_POST['address_city'];
+  $state = $_POST['address_state'];
+  $pincode = $_POST['address_pincode'];
+  $address_id = $_POST['address_id'];
+  
+  $sql = "UPDATE `address` SET `fullname` = '$fullname ', `phone_number` = '$phoneno', `area` = '$address', `city` = '$city ', `state` = '$state ', `pincode` = '$pincode ' WHERE `address`.`address_id` = $address_id";
+  $result = mysqli_query($conn, $sql);
+  if($result){
+    header('location:myaccount.php');
+  }
+} 
+
 ?>
 
 <!doctype html>
@@ -51,7 +69,7 @@ include './assets/dbconnect.php';
     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
       $userid =  $_SESSION['userid'];
 
-      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+      if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_address'])){
 
         $fullname = $_POST['fullname'];
         $phoneno = $_POST['phoneno'];
@@ -86,37 +104,36 @@ include './assets/dbconnect.php';
                     <div class="mb-2 col-6">
                         <div class="mb-2 col-10">
                             <label for="fullname" class="form-label">Full Name</label>
-                            <input type="text" class="form-control col-md-6" id="fullname" name="fullname"">
+                            <input type="text" class="form-control col-md-6" id="fullname" name="fullname" required>
                         </div>
                         <div class="mb-2 col-10">
                             <label for="phoneno" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control col-md-6" id="phoneno" name="phoneno"">
+                            <input type="tel" class="form-control col-md-6" id="phoneno" name="phoneno" required>
                         </div>
                         <div class="mb-2 col-10">
                             <label for="address" class="form-label">Address (Area/Street/Villege)</label>
-                            <input type="text" class="form-control col-md-6" id="address" name="address">
+                            <input type="text" class="form-control col-md-6" id="address" name="address" required>
                         </div>
                         <div class="mb-2 col-10">
                             <label for="city" class="form-label">City</label>
-                            <input type="text" class="form-control col-md-6" id="city" name="city"">
+                            <input type="text" class="form-control col-md-6" id="city" name="city" required>
                         </div>
                     </div>
                     <div class="mb-2 col-6">
                         <div class="mb-2 col-10">
                             <label for="state" class="form-label">State</label>
-                            <input type="text" class="form-control col-md-6" id="state" name="state">
+                            <input type="text" class="form-control col-md-6" id="state" name="state" required>
                         </div>
                 
                         <div class="mb-2 col-10">
                             <label for="pincode" class="form-label">Pin Code</label>
-                            <input type="number" class="form-control col-md-6" id="pincode" name="pincode">
+                            <input type="number" class="form-control col-md-6" id="pincode" name="pincode" required>
                         </div>
-                        <!-- <input type="hidden" name="editimage" id="editimage"> -->
                         <div class="mt-4 col-10">
-                            <button type="submit" class="btn btn-primary col-4" name="submit">Add Address</button>
+                            <button name="add_address" type="submit" class="btn btn-primary col-4" name="submit">Add Address</button>
                         </div>
                     </div>
-                            </form>
+            </form>
         </div>
 
         </div>
