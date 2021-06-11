@@ -1,3 +1,7 @@
+<?php
+include './assets/dbconnect.php';  
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -42,7 +46,31 @@
 </style>
   </head>
   <body>
-    <?php include './assets/navbar.php'; ?>
+    <?php include './assets/navbar.php'; 
+    
+    if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+      $userid =  $_SESSION['userid'];
+
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+        $fullname = $_POST['fullname'];
+        $phoneno = $_POST['phoneno'];
+        $address = $_POST['address'];
+        $city = $_POST['city'];
+        $state = $_POST['state'];
+        $pincode = $_POST['pincode'];
+        
+        $sql = "INSERT INTO `address` (`user_id`, `fullname`, `phone_number`, `area`, `city`, `state`, `pincode`) VALUES ('$userid', '$fullname', '$phoneno', '$address', '$city', '$state', '$pincode')";
+        $result = mysqli_query($conn, $sql);
+        if($result){
+          session_start();
+          $_SESSION['addaddress'] = true;
+          header('location:myaccount.php');
+        }
+      }
+    
+    }  
+    ?>
 
     <div class="account overflow-hidden">
         <div class="account-info container pt-3 my-3">

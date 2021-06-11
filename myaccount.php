@@ -88,24 +88,39 @@ include './assets/dbconnect.php';
 </head>
 
 <body>
-  <?php include './assets/navbar.php'; 
+      <?php include './assets/navbar.php'; 
 
-  
-  if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
-    $userid =  $_SESSION['userid'];
+          if(isset($_SESSION['addaddress']) && $_SESSION['addaddress'] == true){
+            echo '<div class="m-0 alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Success!</strong> New address has been added Successfully.
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>';
+            $_SESSION['addaddress'] = null;
+          }
 
-    $sql = "SELECT * FROM `users` WHERE `user_id` = $userid";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $fname = $row['firstname'];
-    $lname = $row['lastname'];
-    $email = $row['email'];
-    $phoneno = $row['phone_number'];
-  }
-  else{
-    header('location:login.php');
-  }
-  ?>
+      
+          if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+            $userid =  $_SESSION['userid'];
+
+            $sql = "SELECT * FROM `users` WHERE `user_id` = $userid";
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($result);
+            $fname = $row['firstname'];
+            $lname = $row['lastname'];
+            $email = $row['email'];
+            $phoneno = $row['phone_number'];
+          }
+          else{
+            header('location:login.php');
+          }
+
+          if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+            $userid =  $_SESSION['userid'];
+
+            $sql2 = "SELECT * FROM `address` WHERE `user_id` = $userid";
+            $result2 = mysqli_query($conn, $sql2);
+          }
+      ?>
 
   <div class="account overflow-hidden">
     <div class="account-info container pt-3 my-3">
@@ -178,8 +193,35 @@ include './assets/dbconnect.php';
 
         <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="contact-tab">
           <!-- address code here -->
+
           <div class="info p-3 pt-2">
-              <div class="address p-3 mb-3">
+
+          <?php
+              while ( $row2 = mysqli_fetch_assoc($result2)) {
+                $fullname = $row2['fullname'];
+                $phoneno = $row2['phone_number'];
+                $address = $row2['area'];
+                $city = $row2['city'];
+                $state = $row2['state'];
+                $pincode = $row2['pincode'];
+                
+                echo '<div class="address p-3 mb-3">
+                <div class="d-flex align-items-center">
+                  <h6 class="me-3">' . $fullname . ' </h6>
+                  <h6> ' . $phoneno . ' </h6>
+                </div>
+                <p class="m-0 mt-1">' . $address . ' </p>
+                <p class="m-0">' . $city . ' , ' . $state . '  - <b>' . $pincode . ' </b></p>
+                <div class="btns">
+                  <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                  <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+              </div>';
+
+              }
+          ?>
+
+              <!-- <div class="address p-3 mb-3">
                 <div class="d-flex align-items-center">
                   <h6 class="me-3"> Shyam Odedra</h6>
                   <h6> 6355182051</h6>
@@ -202,7 +244,7 @@ include './assets/dbconnect.php';
                   <a href="#" class="btn btn-primary btn-sm">Edit</a>
                   <a href="#" class="btn btn-danger btn-sm">Delete</a>
                 </div>
-              </div>
+              </div> -->
              
               <div class="address px-3 py-2 mb-3" onclick="location.href='/shopping/addaddress.php';" style="cursor: pointer;">
                 <div class="addaddress d-flex align-items-center">
