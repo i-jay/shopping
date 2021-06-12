@@ -1,4 +1,5 @@
 <?php
+
 $invalidemail = false ;
 $invalidpass = false ;
 include './assets/dbconnect.php';
@@ -111,6 +112,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
   </head>
   <body>
     <?php include './assets/navbar.php';
+    if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+        header('location:index.php');
+    }
     if($invalidemail == true){
         echo '<div class="mt-0 alert alert-warning alert-dismissible fade show" role="alert">
         <strong>Oops!</strong> Email does not exist

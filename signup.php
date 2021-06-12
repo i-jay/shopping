@@ -103,7 +103,10 @@ $row = mysqli_num_rows($result);
 </head>
 
 <body>
-    <?php include './assets/navbar.php'; 
+    <?php include './assets/navbar.php';
+     if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+        header('location:index.php');
+    }
     if( $exist_email == true){
         echo '<div class="mt-0 alert alert-warning alert-dismissible fade show" role="alert">
         <strong>Oops!</strong> Email already exist.

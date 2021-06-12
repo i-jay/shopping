@@ -133,61 +133,17 @@ include './assets/dbconnect.php';
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-center mb-2">
-                <a href="./mycart.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Add to Cart</a>
+              <form action="cartoperation.php" method="post">
+              <input type="hidden" name="pid" value="' . $pid .  '">
+              <button type="submit" name="addproduct" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Add to Cart</button>
+                </form>
               </div>
             </div>';
             }
 
         ?>
-         <!-- <div class="card overflow-hidden m-2 mx-4" style="width: 240px;" >
-            <div onclick="location.href='/shopping/product.php';" style="cursor: pointer;" class="d-flex align-items-center justify-content-center flex-column">
-              <img src="./admin/images/products/a1.jpeg" style="width: 220px;height:200px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-              <div class="card-body d-flex align-items-center justify-content-center flex-column">
-                <h6 class="card-title text-center"><b>Redmi Note 10 Pro</b></h6>
-                <h6>Price : 15999/-</h6>
-              </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-         <div class="card overflow-hidden m-2 mx-4" style="width: 240px;" >
-            <div onclick="location.href='/shopping/product.php';" style="cursor: pointer;" class="d-flex align-items-center justify-content-center flex-column">
-              <img src="./admin/images/products/w1.jpeg" style="width: 220px;height:200px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-              <div class="card-body d-flex align-items-center justify-content-center flex-column">
-                <h6 class="card-title text-center"><b>Redmi Note 10 Pro</b></h6>
-                <h6>Price : 15999/-</h6>
-              </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-center">
-              <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-         <div class="card overflow-hidden m-2 mx-4" style="width: 240px;" >
-            <div onclick="location.href='/shopping/product.php';" style="cursor: pointer;" class="d-flex align-items-center justify-content-center flex-column">
-              <img src="./admin/images/products/b.jpeg" style="width: 220px;height:200px;object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-              <div class="card-body d-flex align-items-center justify-content-center flex-column">
-                <h6 class="card-title text-center"><b>Redmi Note 10 Pro</b></h6>
-                <h6>Price : 15999/-</h6>
-              </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-center">
-              <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div>
-
-         <div class="card overflow-hidden m-2 mx-4" style="width: 240px;" >
-            <div onclick="location.href='/shopping/product.php';" style="cursor: pointer;" class="d-flex align-items-center justify-content-center flex-column">
-              <img src="./admin/images/products/e.jpeg" style="width: 220px;height:200px; object-fit: fill;" class="card-img-top px-5 pt-3 mx-auto" alt="...">
-              <div class="card-body d-flex align-items-center justify-content-center flex-column">
-                <h6 class="card-title text-center"><b>Redmi Note 10 Pro</b></h6>
-                <h6>Price : 15999/-</h6>
-              </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-center">
-              <a href="./buynow.php" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Buy Now</a>
-            </div>
-          </div> -->
+        
+       
 
 
 
