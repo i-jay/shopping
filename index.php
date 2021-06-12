@@ -78,31 +78,31 @@ include './assets/dbconnect.php';
       </div>
 
       <div class="d-flex container my-3 flex-wrap justify-content-between">
-        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='/shopping/search.php?cat=mobile';" style="cursor: pointer;">
+        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='search.php?pcatid=1';" style="cursor: pointer;">
           <img src="images/mobiles.jpg" style="height: 100px; width: 200px; object-fit: fill;" class="card-img" alt="...">
           <div class="card-img-overlay d-flex align-items-center justify-content-center">
             <h4 class="card-title .fs-6 text-center mt-3 bg-light text-dark p-1 d-inline-block rounded-2 px-2">Mobiles</h4>
           </div>
         </div>
-        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='/shopping/search.php?cat=fashion';" style="cursor: pointer;">
+        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='search.php?pcatid=4';" style="cursor: pointer;">
           <img src="images/fashion.jpg" style="height: 100px; width: 200px; object-fit: fill;" class="card-img" alt="...">
           <div class="card-img-overlay d-flex align-items-center justify-content-center">
             <h4 class="card-title .fs-6 text-center mt-3 bg-light text-dark p-1 d-inline-block rounded-2 px-2">Fashion</h4>
           </div>
         </div>
-        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='/shopping/search.php?cat=gaming';" style="cursor: pointer;">
+        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='search.php?pcatid=3';" style="cursor: pointer;">
           <img src="images/gaming.jpg" style="height: 100px; width: 200px; object-fit: fill;" class="card-img" alt="...">
           <div class="card-img-overlay d-flex align-items-center justify-content-center">
             <h4 class="card-title .fs-6 text-center mt-3 bg-light text-dark p-1 d-inline-block rounded-2 px-2">Gaming</h4>
           </div>
         </div>
-        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='/shopping/search.php?cat=sports';" style="cursor: pointer;">
+        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='search.php?pcatid=5';" style="cursor: pointer;">
           <img src="images/sports.jpg" style="height: 100px; width: 200px; object-fit: fill;" class="card-img" alt="...">
           <div class="card-img-overlay d-flex align-items-center justify-content-center">
             <h4 class="card-title .fs-6 text-center mt-3 bg-light text-dark p-1 d-inline-block rounded-2 px-2">Sports</h4>
           </div>
         </div>
-        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='/shopping/search.php?cat=laptops';" style="cursor: pointer;">
+        <div class="card text-white mx-2 overflow-hidden" onclick="location.href='search.php?pcatid=2';" style="cursor: pointer;">
           <img src="images/laptop.jpg" style="height: 100px; width: 200px; object-fit: fill;" class="card-img" alt="...">
           <div class="card-img-overlay d-flex align-items-center justify-content-center">
             <h4 class="card-title .fs-6 text-center mt-3 bg-light text-dark p-1 d-inline-block rounded-2 px-2">Laptops</h4>

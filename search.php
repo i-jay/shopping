@@ -1,3 +1,8 @@
+<?php
+include './assets/dbconnect.php';
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -64,14 +69,19 @@
     }
     .links{
         list-style: none;
+        justify-content: center;
     }
     .links li{
-        margin-right: 25px;
+        margin-right: 50px;
         line-height: 40px;
     }
     .links li a{
         text-decoration: none;
         font-size: 18px;
+        color: black;
+    }
+    .links li a:hover{
+        color: blue;
     }
 </style>
   </head>
@@ -79,16 +89,16 @@
     <?php include './assets/navbar.php'; ?>
     <div class="category container">
     <ul class="links d-flex">
-<li><a href=""> Mobile </a></li>
-<li><a href=""> Laptop </a></li>
-<li><a href=""> Gaming </a></li>
-<li><a href=""> Fashion </a></li>
-<li><a href=""> Sports </a></li>
-<li><a href=""> Watches </a></li>
-<li><a href=""> Books </a></li>
-<li><a href=""> Shoes </a></li>
-<li><a href=""> Camera </a></li>
-<li><a href=""> Headphones </a></li>
+        <li><a href="search.php?pcatid=1"> Mobile </a></li>
+        <li><a href="search.php?pcatid=2"> Laptop </a></li>
+        <li><a href="search.php?pcatid=3"> Gaming </a></li>
+        <li><a href="search.php?pcatid=4"> Fashion </a></li>
+        <li><a href="search.php?pcatid=5"> Sports </a></li>
+        <li><a href="search.php?pcatid=6"> Watches </a></li>
+        <li><a href="search.php?pcatid=7"> Books </a></li>
+        <li><a href="search.php?pcatid=8"> Shoes </a></li>
+        <li><a href="search.php?pcatid=9"> Camera </a></li>
+        <li><a href="search.php?pcatid=10"> Headphones </a></li>
     </ul>
     </div>
 
@@ -120,9 +130,117 @@
         </div>
         <div class="results">
 
-        <h5 class="my-2 ps-4">Showing results for "Redmi Note 10 Pro"</h5>
-            <hr>
-            <div class="product d-flex my-3 overflow-hidden" onclick="location.href='/shopping/product.php';" style="cursor: pointer;">
+            <?php
+
+                if(isset($_GET['pcatid'])){
+                    $product_cat_id = $_GET['pcatid'];
+                
+                    $sql = "SELECT * FROM `products` WHERE `product_cat_id` = $product_cat_id";
+                    $result = mysqli_query($conn, $sql);
+                    $row = mysqli_fetch_assoc($result);
+                    $pcatname = $row['product_cat_name']; 
+                    
+                    echo '<h5 class="my-2 ps-4">Showing results for "'. $pcatname .'"</h5>
+                    <hr>';
+                    
+                    $sql2 = "SELECT * FROM `products` WHERE `product_cat_id` = $product_cat_id";
+                    $result2 = mysqli_query($conn, $sql2); 
+                    $num = mysqli_num_rows($result2);
+
+                    if($num ==0){
+                        //     echo ' <div class="alert alert-warning m-4" role="alert">
+                        //     <h4 class="alert-heading">No Results Found!</h4>
+                        //     <p>Please type some general word.</p>
+                        //   </div>';                   
+                            echo ' <div class="m-4">
+                            <h4>No Results Found!</h4>
+                          </div>';                   
+                    }
+                    else{
+
+                        while ($row2 = mysqli_fetch_assoc($result2)) {
+                            $pname = $row2['product_name'];
+                            // $pcatname2 = $row2['product_cat_name'];
+                            $pimage = $row2['product_image'];
+                            $price = $row2['product_price'];
+                            $pinfo = $row2['product_info'];
+                            $pid = $row2['product_id'];
+                            $link = "'/shopping/product.php?pid=$pid'";
+            
+                            echo '<div class="product d-flex my-3 overflow-hidden" onclick="location.href='. $link .';" style="cursor: pointer;">
+                            <div class="product-photo ms-5 border-0" >
+                                <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 200px;">
+                                    <img src="./admin/'. $pimage .'" style="width: 90px; object-fit: fill;"
+                                        class="mx-auto " alt="...">
+                                </div>
+                            </div>
+                            <div class="product-info p-3">
+                                <h5>' . $pname .'</h5>
+                                <ul>
+                                    <li>' . $pinfo . '</li>
+                                </ul>
+                            </div>
+                            <div class="price">
+                                <h2 class="my-3 text-center"> ₹' . $price . '</h2>
+                            </div>
+                            </div> <hr>';   
+                        }
+                    }
+
+                }
+
+                if(isset($_GET['search'])){
+                    $search = $_GET['search'];
+
+                    
+                    echo '<h5 class="my-2 ps-4">Showing results for "'. $search .'"</h5>
+                    <hr>';
+                    
+                    $sql3 = "SELECT * FROM `products` WHERE MATCH ( `product_name`,`product_info`, `product_cat_name`, `product_keywords`) against ('$search')";
+                    $result3 = mysqli_query($conn,$sql3);
+                    $num = mysqli_num_rows($result3);
+
+                    if($num ==0){
+                        //     echo ' <div class="alert alert-warning m-4" role="alert">
+                        //     <h4 class="alert-heading">No Results Found!</h4>
+                        //     <p>Please type some general word.</p>
+                        //   </div>';                   
+                            echo ' <div class="m-4">
+                            <h4>No Results Found!</h4>
+                          </div>';                   
+                    }
+                    else{
+
+                        while ($row3 = mysqli_fetch_assoc($result3)) {
+                            $pname = $row3['product_name'];
+                            $pimage = $row3['product_image'];
+                            $price = $row3['product_price'];
+                            $pinfo = $row3['product_info'];
+                            $pid = $row3['product_id'];
+                            $link = "'/shopping/product.php?pid=$pid'";
+            
+                            echo '<div class="product d-flex my-3 overflow-hidden" onclick="location.href='. $link .';" style="cursor: pointer;">
+                            <div class="product-photo ms-5 border-0" >
+                                <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 200px;">
+                                    <img src="./admin/'. $pimage .'" style="width: 90px; object-fit: fill;"
+                                        class="mx-auto " alt="...">
+                                </div>
+                            </div>
+                            <div class="product-info p-3">
+                                <h5>' . $pname .'</h5>
+                                <ul>
+                                    <li>' . $pinfo . '</li>
+                                </ul>
+                            </div>
+                            <div class="price">
+                                <h2 class="my-3 text-center"> ₹' . $price . '</h2>
+                            </div>
+                            </div> <hr>';   
+                        }
+                    }
+                }
+             ?>
+            <!-- <div class="product d-flex my-3 overflow-hidden" onclick="location.href='/shopping/product.php';" style="cursor: pointer;">
                 <div class="product-photo ms-5 border-0" >
                     <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 200px;">
                         <img src="images/mobile1.jpeg" style="width: 90px; object-fit: fill;"
@@ -141,8 +259,6 @@
                 <div class="price">
                     <h2 class="my-3 text-center"> ₹21,690</h2>
                 </div>
-                
-        
             </div> <hr>
             <div class="product d-flex my-3 overflow-hidden" onclick="location.href='/shopping/product.php';" style="cursor: pointer;">
                 <div class="product-photo ms-5 border-0" >
@@ -209,7 +325,7 @@
                 </div>
                 
         
-            </div>
+            </div> -->
             
             
 

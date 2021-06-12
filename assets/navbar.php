@@ -1,20 +1,34 @@
 <?php
 session_start();
 
+if(isset($_GET['search'])){
+  $search = $_GET['search'];}
+
 echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
 <div class="container-fluid">
   <a class="navbar-brand" href="/shopping" style="color: #ffe500; font-size: 25px; font-weight: 400;">Shopping</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">';
    
-    <form class="d-flex mx-5" action="/shopping/search.php">
-      <input class="form-control me-4 col-sm-10 navbarsearch" type="search" placeholder="Search" aria-label="Search" required>
-      <button class="btn btn-warning" type="submit" style="background: #ffe500">Search</button>
-    </form>
-    
-</div>
+  if(isset($_GET['search'])){
+    $search = $_GET['search'];
+
+    echo '<form class="d-flex mx-5" action="/shopping/search.php" method="get">
+    <input class="form-control me-4 col-sm-10 navbarsearch" name="search" type="search" placeholder="Search" aria-label="Search" required value="' . $search .  '">
+    <button class="btn btn-warning" type="submit" style="background: #ffe500">Search</button>
+  </form>';
+  
+  }
+  else{
+    echo '<form class="d-flex mx-5" action="/shopping/search.php" method="get">
+    <input class="form-control me-4 col-sm-10 navbarsearch" name="search" type="search" placeholder="Search" aria-label="Search" required>
+    <button class="btn btn-warning" type="submit" style="background: #ffe500">Search</button>
+  </form>';
+  }
+
+echo  '</div>
 <div class="icons">
   <a href="/shopping/mycart.php"><i class="fa fa-shopping-cart mx-2" style="line-height: 25px; font-size: 25px; color: white;"></i></a></div>';
   if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){

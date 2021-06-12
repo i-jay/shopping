@@ -241,7 +241,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['deleteId'])){
   <!--  Modal code ends -->
 
 
-
   <div class="account overflow-hidden">
     <div class="account-info container pt-3 my-3">
       <div class="title d-flex">
