@@ -52,7 +52,7 @@ include './assets/dbconnect.php';
             <div class="buttons d-flex justify-content-center" style="width: 400px;">
                 <a href="./mycart.php" class="btn btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Add to
                     Cart</a>
-                <a href="./buynow.php" class="btn btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Buy
+                <a href="./buynow.php?pid=<?php echo $pid; ?>" class="btn btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Buy
                     Now</a>
             </div>
         </div>

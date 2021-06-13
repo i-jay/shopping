@@ -37,7 +37,7 @@ include './assets/dbconnect.php';
     }
 
     .cart-content{
-      height:61vh;
+      min-height:61vh;
     }
 
     .cart {
