@@ -50,10 +50,19 @@ include './assets/dbconnect.php';
                     class="card-img-top px-5 py-3 mx-auto" alt="...">
             </div>
             <div class="buttons d-flex justify-content-center" style="width: 400px;">
+                <!-- <form action="cartoperation.php" method="post">
+                  <input type="hidden" name="pid" value="' . $pid .  '">
+                  <input type="hidden" name="price" value="' . $price .  '">
+                  <button type="submit" name="addproduct" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Add to Cart</button>
+                </form> -->
                 <a href="./mycart.php" class="btn btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Add to
                     Cart</a>
-                <a href="./buynow.php?pid=<?php echo $pid; ?>" class="btn btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Buy
-                    Now</a>
+                <form action="buynowoperation.php" method="post">
+                  <input type="hidden" name="pid" value="<?php echo $pid;  ?>">
+                  <input type="hidden" name="price" value="<?php echo $price;  ?>">
+                  <button type="submit" name="buynow" class="btn btn-primary btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Buy Now</button>
+                </form>
+        
             </div>
         </div>
         <div class="product-info p-4">

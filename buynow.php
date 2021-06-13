@@ -1,15 +1,5 @@
 <?php
 include './assets/dbconnect.php';
-$pid = $_GET['pid'];
-$sql = "SELECT * FROM `products` WHERE `product_id` = $pid";
-$result = mysqli_query($conn, $sql);
-
-$row = mysqli_fetch_assoc($result);
-
-$pname = $row['product_name'];
-$pimage = $row['product_image'];
-$price = $row['product_price'];
-$pseller = $row['product_seller'];
 
 ?>
 <!doctype html>
@@ -102,7 +92,7 @@ $pseller = $row['product_seller'];
 
 <body>
     <?php include './assets/navbar.php';
-    $link = "'/shopping/product.php?pid=$pid'";
+   
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         $userid =  $_SESSION['userid'];
 
@@ -113,6 +103,28 @@ $pseller = $row['product_seller'];
         $lname = $row['lastname'];
         $email = $row['email'];
         $phoneno = $row['phone_number'];
+
+
+        $user_id = $_SESSION['userid'];
+      
+        $sql2 = "SELECT * FROM `buynow` WHERE `user_id` = $user_id";
+        $result2 = mysqli_query($conn, $sql2);
+        $row2 = mysqli_fetch_assoc($result2);
+        $pid = $row2['product_id'];
+        $product_quantity = $row2['product_quantity'] ;
+        $price = $row2['total_price'];
+  
+        $sql3 = "SELECT * FROM `products` WHERE `product_id` = $pid";
+        $result3 = mysqli_query($conn, $sql3);
+        $row3 = mysqli_fetch_assoc($result3);
+
+        $pname = $row3['product_name'];
+        $pimage = $row3['product_image'];
+       
+        $pseller = $row3['product_seller'];
+        
+
+        $link = "'/shopping/product.php?pid=$pid'";
     } else {
         header('location:login.php');
     }
@@ -192,14 +204,14 @@ $pseller = $row['product_seller'];
                         <h5 onclick="location.href=<?php echo $link ;?>" style="cursor: pointer;"> <?php echo $pname;?></h5>
                         <p>Seller :  <?php echo $pseller;?></p>
                         <div class="m-0">
-                            <form action="#" method="post">
+                            <form action="buynowoperation.php" method="post">
                                 <input type="hidden" name="pid" value=" <?php echo $pid;?>">
                                 <input type="hidden" name="product_price" value=" <?php echo $price;?>">
                                 <input type="submit" class="quantitybtn" onclick="decrementValue(<?php echo $pid;?>)" value="-" />
-                                <input type="text" class="text-center mx-1" name="quantity" value="1" maxlength="2" max="10" size="1" id="number-<?php echo $pid;?>" />
+                                <input type="text" class="text-center mx-1" name="quantity" value="<?php echo $product_quantity;?>" maxlength="2" max="10" size="1" id="number-<?php echo $pid;?>" />
                                 <input type="submit" class="quantitybtn" onclick="incrementValue(<?php echo $pid;?>)" value="+" />
                             </form>
-                            <form action="cartoperation.php" method="post">
+                            <form action="buynowoperation.php" method="post">
                                 <input type="hidden" name="pid" value="<?php echo $pid;?>">
                                 <button name="deleteproduct" class="btn btn-sm mt-2 remove">REMOVE</button>
                             </form>
