@@ -1,5 +1,5 @@
 <?php
-
+include './assets/dbconnect.php';
 ?>
 <!doctype html>
 <html lang="en">

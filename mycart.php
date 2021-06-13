@@ -36,9 +36,13 @@ include './assets/dbconnect.php';
       width: 450px;
     }
 
+    .cart-content{
+      height:61vh;
+    }
+
     .cart {
       background: rgb(226, 225, 225);
-      min-height:45vh;
+      height:auto;
     }
 
     .cart-items {
@@ -49,6 +53,10 @@ include './assets/dbconnect.php';
     }
     .product{
       position: relative;
+    }
+
+    .product-info{
+      width: 600px;
     }
 
     .product-price{
@@ -108,11 +116,30 @@ include './assets/dbconnect.php';
       border-radius:50%;
     }
 
+    .icons{
+      position: relative;
+    }
+    .cartnumber[data-count]:after{
+      width: 25px;
+      height: 25px;
+      position:absolute;
+      right:-10px;
+      top:-17px;
+      content: attr(data-count);
+      font-size:15px;
+      padding:2px;
+      border-radius:50%;
+      color: black;
+      background:#ffe500;
+      text-align:center;
+    }
+
   </style>
 </head>
 
 <body>
   <?php include './assets/navbar.php';
+     $ptotalprice = 0;
 
     if(isset($_SESSION['productadded']) && $_SESSION['productadded'] == true){
       echo '<div class="m-0 alert alert-warning alert-dismissible fade show" role="alert">
@@ -136,20 +163,23 @@ include './assets/dbconnect.php';
 
   ?>
 
-
+<div class="cart-content overflow-hidden">
   <div class="cart overflow-hidden d-flex">
   
             <?php
 
+               
                 if($num > 0){
 
-                  echo '<div class="cart-items ms-3 my-2">
+                  echo '<div class="cart-items ms-3 my-2 overflow-hidden">
                             <div class="title d-flex align-items-center justify-content-between py-2 px-3">
                               <h4>My Cart</h4>
                               <form action="cartoperation.php" method="post">
                                 <button class="empty-cart btn btn-danger" name="emptycart"> Empty Cart</button>
                               </form>
                             </div>';
+
+
                   while($row = mysqli_fetch_assoc($result)){
                     $pid = $row['product_id'];
       
@@ -166,6 +196,8 @@ include './assets/dbconnect.php';
                     $sql3 = "SELECT * FROM `cart` WHERE `Product_id` = $pid AND `user_id` = $user_id";
                     $result3 = mysqli_query($conn, $sql3);
                     $row3 = mysqli_fetch_assoc($result3);
+
+                    $ptotalprice = $ptotalprice + $row3['total_price'];
 
                     echo '<div class="product d-flex my-3 overflow-hidden">
                               <div class="product-photo border-0" >
@@ -198,42 +230,23 @@ include './assets/dbconnect.php';
                               
                           </div> <hr>';   
       
-                    // echo '
-                    // <div class="product d-flex my-3 overflow-hidden">
-                    //     <div class="product-photo border-0">
-                    //       <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                    //         <img src="./admin/' . $pimage .'" style="width: 90px; object-fit: fill;" class="mx-auto " alt="...">
-                    //       </div>
-                    //     </div>
-                    //     <div class="product-info px-3 py-2">
-                    //       <h5 onclick="location.href=' . $link .';" style="cursor: pointer;">' . $pname .'</h5>
-                    //       <p>Seller : ' . $pseller .'</p>
-                    //       <h3 class="my-3"> ₹' . $price .'</h3>
-                    //       <form action="cartoperation.php" method="post">
-                    //       <input type="hidden" name="pid" value="' . $pid .  '">
-                    //       <button name="deleteproduct" class="btn btn-sm mt-2 remove">REMOVE</button>
-                    //       </form>
-                    //     </div>
-                    // </div>
-                    // <hr>';
-      
                   }
                   echo ' </div><div class="price ms-3 my-2 px-3">
                             <div class="title d-flex align-items-center py-2 px-3">
                               <h4>Price Detail</h4>
                             </div>
                             <div class="d-flex justify-content-between px-3 py-2">
-                              <h5>Price (3 items)</h5>
-                              <h5> ₹63,690</h5>
+                              <h5>Price</h5>
+                              <h5> ₹'. $ptotalprice .'</h5>
                             </div>
                             <div class="d-flex justify-content-between px-3 py-2">
                               <h5>Delivery Charges</h5>
-                              <h5> ₹100</h5>
+                              <h5> ₹80</h5>
                             </div>
                             <hr>
                             <div class="d-flex justify-content-between px-3">
                               <h5>Total Amount</h5>
-                              <h5> ₹64,000</h5>
+                              <h5> ₹' . $ptotalprice + 80 . '</h5>
                             </div>
                             <div class="form-col my-2 d-flex justify-content-center">
                               <a href="./buynow.php"> <button type="submit" class="btn my-2">Place Order</button></a>
