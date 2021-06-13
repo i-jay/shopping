@@ -39,11 +39,30 @@ include './assets/dbconnect.php';
     .navbarsearch{
       width: 450px;
     }
+
+    .icons{
+      position: relative;
+    }
+    .cartnumber[data-count]:after{
+      width: 25px;
+      height: 25px;
+      position:absolute;
+      right:-10px;
+      top:-17px;
+      content: attr(data-count);
+      font-size:15px;
+      padding:2px;
+      border-radius:50%;
+      color: black;
+      background:#ffe500;
+      text-align:center;
+    }
 </style>
 </head>
 
 <body>
   <?php include './assets/navbar.php'; ?>
+
 
       <div id="carouselExampleIndicators" class="carousel slide mx-2 my-2 rounded-2" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -135,6 +154,7 @@ include './assets/dbconnect.php';
               <div class="d-flex align-items-center justify-content-center mb-2">
               <form action="cartoperation.php" method="post">
               <input type="hidden" name="pid" value="' . $pid .  '">
+              <input type="hidden" name="price" value="' . $price .  '">
               <button type="submit" name="addproduct" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Add to Cart</button>
                 </form>
               </div>

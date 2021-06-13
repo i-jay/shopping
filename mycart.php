@@ -18,10 +18,6 @@ include './assets/dbconnect.php';
 
   <title>Hello, world!</title>
   <style>
-    body{
-      
-    }
-
     .form-control:focus,
     button:focus,
     .remove:focus,
@@ -42,7 +38,7 @@ include './assets/dbconnect.php';
 
     .cart {
       background: rgb(226, 225, 225);
-      min-height:65vh;
+      min-height:45vh;
     }
 
     .cart-items {
@@ -50,6 +46,15 @@ include './assets/dbconnect.php';
       width: 70%;
       border-radius: 10px;
       height:auto;
+    }
+    .product{
+      position: relative;
+    }
+
+    .product-price{
+      position:absolute;
+      right:40px;
+      top:0px;
     }
 
     .price {
@@ -94,6 +99,13 @@ include './assets/dbconnect.php';
       background: rgb(255, 255, 255);
       border-radius: 10px;
       margin:20px;
+    }
+    .quantitybtn{
+      width: 30px;
+      height: 30px;
+      outline: none;
+      border: 1px solid gray;
+      border-radius:50%;
     }
 
   </style>
@@ -150,27 +162,60 @@ include './assets/dbconnect.php';
                     $price = $row2['product_price'];
                     $pseller = $row2['product_seller'];
                     $link = "'/shopping/product.php?pid=$pid'";
+
+                    $sql3 = "SELECT * FROM `cart` WHERE `Product_id` = $pid AND `user_id` = $user_id";
+                    $result3 = mysqli_query($conn, $sql3);
+                    $row3 = mysqli_fetch_assoc($result3);
+
+                    echo '<div class="product d-flex my-3 overflow-hidden">
+                              <div class="product-photo border-0" >
+                                  <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
+                                      <img src="./admin/'. $pimage .'" style="width: 90px; object-fit: fill;"
+                                          class="mx-auto " alt="...">
+                                  </div>
+                              </div>
+                              <div class="product-info p-3">
+                                  <h5 onclick="location.href=' . $link .';" style="cursor: pointer;">' . $pname .'</h5>
+                                  <p>Seller : ' . $pseller .'</p>
+                                  <div class="m-0">
+                                  <form action="cartoperation.php" method="post">
+                                    <input type="hidden" name="pid" value="' . $pid .  '">
+                                    <input type="hidden" name="product_price" value="' . $price .  '">
+                                    <input type="submit" class="quantitybtn" onclick="decrementValue(' . $pid .  ')" value="-" />
+                                    <input type="text" class="text-center mx-1" name="quantity" value="' . $row3['product_quantity'] . '" maxlength="2" max="10" size="1" id="number-' . $pid .  '" />
+                                    <input type="submit" class="quantitybtn" onclick="incrementValue(' . $pid .  ')" value="+" />
+                                    </form>
+                                    <form action="cartoperation.php" method="post">
+                                        <input type="hidden" name="pid" value="' . $pid .  '">
+                                        <button name="deleteproduct" class="btn btn-sm mt-2 remove">REMOVE</button>
+                                    </form>
+                                  </div>
+                              </div>';
+
+                             echo '<div class="product-price">
+                                <h2 class="my-3 text-center"> ₹' . $row3['total_price'] . '</h2>
+                             </div>
+                              
+                          </div> <hr>';   
       
-                    echo '
-                    <div class="product d-flex my-3 overflow-hidden">
-                        <div class="product-photo border-0">
-                          <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="./admin/' . $pimage .'" style="width: 90px; object-fit: fill;" class="mx-auto " alt="...">
-                          </div>
-                        </div>
-                        <div class="product-info px-3 py-2">
-                          <h5 onclick="location.href=' . $link .';" style="cursor: pointer;">' . $pname .'</h5>
-                          <p>Seller : ' . $pseller .'</p>
-                          <h3 class="my-3"> ₹' . $price .'</h3>
-                          <form action="cartoperation.php" method="post">
-                          <input type="hidden" name="pid" value="' . $pid .  '">
-                          <button name="deleteproduct" class="btn btn-sm mt-2 remove">REMOVE</button>
-                          </form>
-                        </div>
-                    </div>
-                    <hr>
-                   
-                    ';
+                    // echo '
+                    // <div class="product d-flex my-3 overflow-hidden">
+                    //     <div class="product-photo border-0">
+                    //       <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
+                    //         <img src="./admin/' . $pimage .'" style="width: 90px; object-fit: fill;" class="mx-auto " alt="...">
+                    //       </div>
+                    //     </div>
+                    //     <div class="product-info px-3 py-2">
+                    //       <h5 onclick="location.href=' . $link .';" style="cursor: pointer;">' . $pname .'</h5>
+                    //       <p>Seller : ' . $pseller .'</p>
+                    //       <h3 class="my-3"> ₹' . $price .'</h3>
+                    //       <form action="cartoperation.php" method="post">
+                    //       <input type="hidden" name="pid" value="' . $pid .  '">
+                    //       <button name="deleteproduct" class="btn btn-sm mt-2 remove">REMOVE</button>
+                    //       </form>
+                    //     </div>
+                    // </div>
+                    // <hr>';
       
                   }
                   echo ' </div><div class="price ms-3 my-2 px-3">
@@ -211,6 +256,28 @@ include './assets/dbconnect.php';
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
     crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+function incrementValue(n)
+{
+    var value = parseInt(document.getElementById("number-"+n).value, 10);
+    value = isNaN(value) ? 0 : value;
+    if(value<10){
+        value++;
+            document.getElementById("number-"+n).value = value;
+    }
+}
+function decrementValue(n)
+{
+    var value = parseInt(document.getElementById("number-"+n).value, 10);
+    value = isNaN(value) ? 0 : value;
+    if(value>1){
+        value--;
+            document.getElementById("number-"+n).value = value;
+    }
+
+}
+</script>
 
 </body>
 

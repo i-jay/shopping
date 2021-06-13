@@ -28,14 +28,28 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
   </form>';
   }
 
-echo  '</div>
-<div class="icons">
-  <a href="/shopping/mycart.php"><i class="fa fa-shopping-cart mx-2" style="line-height: 25px; font-size: 25px; color: white;"></i></a></div>';
+
   if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
-    echo '<div class="icons">
+    $user_id = $_SESSION['userid'];
+  
+    $sql2 = "SELECT * FROM `cart` WHERE `user_id` = $user_id";
+    $result2 = mysqli_query($conn, $sql2);
+    $num = mysqli_num_rows($result2);
+    $link2 = "'./mycart.php'";
+
+    echo  '</div>
+            <div class="icons">
+            <span class="icons cartnumber m-0 me-4" data-count="' . $num . '" onclick="location.href=' . $link2 . ';" style="cursor: pointer;">
+            <a><i class="fa fa-shopping-cart mx-2" style="line-height: 25px; font-size: 25px; color: white;"></i></a></div>
+            </span>';
+  }
+
+  
+  if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+    echo '<div class="icons d-flex align-items-center">
     <a href="/shopping/myaccount.php" style="color: white; text-decoration: none; font-size: 20px; margin-right: 20px;"><i  class="fa fa-user mx-2" style="line-height: 25px; font-size: 25px; color: white;"> </i>'.$_SESSION['firstname'].' </a>
     <a type="button" class="btn btn-warning my-2 my-sm-0 mx-2" href="logout.php" style="background: #ffe500">Logout</a> 
-    </div>';
+    </>';
   }
   else{
     echo '<div class="d-flex">
