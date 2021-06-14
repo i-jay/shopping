@@ -1,3 +1,6 @@
+<?php
+include './assets/dbconnect.php'; 
+?>
 <!doctype html>
 <html lang="en">
 
@@ -43,85 +46,67 @@
 </head>
 
 <body>
-    <?php include './assets/navbar.php'; ?>
+    <?php include './assets/navbar.php'; 
+        $user_id = $_SESSION['userid'];
+        if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+
+            $sql = "SELECT * FROM `orders` WHERE `user_id` = '$user_id'" ;
+            $result = mysqli_query($conn, $sql);
+
+        }
+        else{
+            header('location:login.php');
+            }
+
+    ?>
 
     <div class="myorder overflow-hidden">
         <div class="order-list container py-2 px-4">
             <div class="d-flex flex-column">
                 <h4>My Orders</h4> <hr class="my-1">
-                <div class="product d-flex my-2 overflow-hidden">
-                    <div class="product-photo border-0">
-                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="images/a1.jpeg" style="width: 60px; object-fit: fill;" class="mx-auto "
-                                alt="...">
+
+                <?php
+                    while($row = mysqli_fetch_assoc($result)){
+                        $pid = $row['product_id'];
+                        $link = "'/shopping/product.php?pid=$pid'";
+                        $total_price = $row['total_price'];
+                        $seller = $row['seller'];
+
+                        $sql2 = "SELECT * FROM `products` WHERE `product_id` = $pid";
+                        $result2 = mysqli_query($conn, $sql2);
+                    
+                        $row2 = mysqli_fetch_assoc($result2);
+                    
+                        $pname = $row2['product_name'];
+                        $pimage = $row2['product_image'];
+                       
+                        echo '<div class="product d-flex my-2 overflow-hidden flex-column">
+                        <h5>Order id: '.$row['order_id'].'</h5>
+                        <div class="product d-flex my-2 overflow-hidden" >
+                            <div class="product-photo border-0">
+                                <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
+                                    <img src="./admin/'.$pimage.'" style="width: 100px; object-fit: fill;" class="mx-auto "
+                                        alt="...">
+                                </div>
+                            </div>
+                            <div class="product-info px-3 py-2">
+                                <h5 onclick="location.href='.$link.';" style="cursor: pointer;">'.$pname.'</h5>
+                                <p>Seller : '.$seller.'</p>
+                                <h3 class="my-3"> ₹'.$total_price.'</h3>
+                            </div>
+                            <div class="px-3 py-2 ps-5">
+                                <h5>Order Date : 15 June 2021</h5>
+                                <h6 class="text-primary my-3" style="cursor: pointer;"><i class="fa fa-times"></i> Cancle</h6>
+                            </div>
                         </div>
-                    </div>
-                    <div class="product-info px-3 py-2">
-                        <h5 onclick="location.href='/shopping/product.php';" style="cursor: pointer;">Redmi Note 10 Pro
-                            (Vintage
-                            Bronze, 128 GB) (8 GB RAM)</h5>
-                        <p>Seller : Amazon</p>
-                        <h3 class="my-3"> ₹21,690</h3>
-                    </div>
-                    <div class="px-3 py-2 ps-5">
-                        <h5>Order Date : 15 June 2021</h5>
-                        <h6 class="text-primary my-3" style="cursor: pointer;"><i class="fa fa-times"></i> Cancle</h6>
-                    </div>
-                </div> <hr class="my-1">
-                <div class="product d-flex my-2 overflow-hidden">
-                    <div class="product-photo border-0">
-                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="images/r1.jpeg" style="width: 60px; object-fit: fill;" class="mx-auto "
-                                alt="...">
-                        </div>
-                    </div>
-                    <div class="product-info px-3 py-2">
-                        <h5 onclick="location.href='/shopping/product.php';" style="cursor: pointer;">Redmi Note 10 Pro
-                            (Vintage
-                            Bronze, 128 GB) (8 GB RAM)</h5>
-                        <p>Seller : Amazon</p>
-                        <h3 class="my-3"> ₹21,690</h3>
-                    </div>
-                    <div class="px-3 py-2 ps-5">
-                        <h5>Order Date : 10 June 2021</h5>
-                    </div>
-                </div> <hr class="my-1">
-                <div class="product d-flex my-2 overflow-hidden">
-                    <div class="product-photo border-0">
-                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="images/s1.jpeg" style="width: 60px; object-fit: fill;" class="mx-auto "
-                                alt="...">
-                        </div>
-                    </div>
-                    <div class="product-info px-3 py-2">
-                        <h5 onclick="location.href='/shopping/product.php';" style="cursor: pointer;">Redmi Note 10 Pro
-                            (Vintage
-                            Bronze, 128 GB) (8 GB RAM)</h5>
-                        <p>Seller : Amazon</p>
-                        <h3 class="my-3"> ₹21,690</h3>
-                    </div>
-                    <div class="px-3 py-2 ps-5">
-                        <h5>Order Date : 8 June 2021</h5>
-                    </div>
-                </div> <hr class="my-1">
-                <div class="product d-flex my-2 overflow-hidden">
-                    <div class="product-photo border-0">
-                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="images/mobile1.jpeg" style="width: 60px; object-fit: fill;" class="mx-auto "
-                                alt="...">
-                        </div>
-                    </div>
-                    <div class="product-info px-3 py-2">
-                        <h5 onclick="location.href='/shopping/product.php';" style="cursor: pointer;">Redmi Note 10 Pro
-                            (Vintage
-                            Bronze, 128 GB) (8 GB RAM)</h5>
-                        <p>Seller : Amazon</p>
-                        <h3 class="my-3"> ₹21,690</h3>
-                    </div>
-                    <div class="px-3 py-2 ps-5">
-                        <h5>Order Date : 6 June 2021</h5>
-                    </div>
-                </div>
+                    </div> <hr class="my-1">
+                        ';
+
+                    }
+                ?>
+                
+                
+                
             </div>
         </div>
     </div>

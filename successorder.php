@@ -1,3 +1,8 @@
+<?php
+include './assets/dbconnect.php';
+   
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -32,7 +37,6 @@
       background: rgb(226, 225, 225);
       margin: 0;
     }
-
     .placed,.address , .order-detail {
       background: rgb(255, 255, 255);
       margin: 15px auto;
@@ -41,7 +45,34 @@
 </style>
   </head>
   <body>
-    <?php include './assets/navbar.php'; ?>
+    <?php include './assets/navbar.php';
+      $user_id = $_SESSION['userid'];
+      if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
+        
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])){
+            $address_id = $_POST['addresses'];
+            $payment_method = $_POST['payments'];
+            $pid = $_POST['pid'];
+            $pname = $_POST['pname'];
+            $pimage = $_POST['pimage'];
+            $quantity = $_POST['quantity'];
+            $price = $_POST['price'];
+            $total_price = $_POST['total_price'];
+            $seller = $_POST['seller'];
+            $link = "'/shopping/product.php?pid=$pid'";
+
+            $insert = "INSERT INTO `orders` (`status`, `user_id`, `product_id`, `quantity`, `total_price`, `seller`, `address_id`, `payment_method`, `order_date`, `payment_status`) VALUES ('0', '$user_id', '$pid', '$quantity', '$total_price', '$seller', '$address_id', '$payment_method', current_timestamp(), '1')";
+            $insert_result = mysqli_query($conn, $insert);
+            
+            $del = "DELETE FROM `buynow` WHERE `user_id` = $user_id";
+            $del_result = mysqli_query($conn, $del);
+
+      }
+      else{
+        header('location:login.php');
+        }
+      }
+    ?>
 
     <div class="successorder overflow-hidden"> 
         <div class="placed container py-4 px-4 d-flex justify-content-between">
@@ -51,11 +82,18 @@
         <div class="address container py-2 px-4">
             <div class="d-flex flex-column">
                 <h4>Delivery Address</h4>
+                <?php
+                    $sql2 = "SELECT * FROM `address` WHERE `address_id` = $address_id";
+                    $result2 = mysqli_query($conn, $sql2);
+                    $row2 = mysqli_fetch_assoc($result2);
+
+                    ?>
+
                 <div class="d-flex">
                     <div class="d-flex flex-column mt-2 me-5">
-                        <h6 class="my-1">Shyam Odedra , 123456789</h6>
-                        <p class="mb-1">Porbandar, Gujarat ,360579 </p>
-                        <h6 class="mb-2">Phone number 123456789 </h6>
+                        <h6 class="my-1"><?php echo $row2['fullname'];?>, <?php echo $row2['phone_number'];?></h6>
+                        <p class="mb-1"><?php echo $row2['area'];?>,</p>
+                        <p class="mb-1"><?php echo $row2['city'];?>, <?php echo $row2['state'];?>, <?php echo $row2['pincode'];?> </p>
                     </div> 
                     <div class="mx-5 mt-2"> 
                         <h6>Delivery Expected by 15 August</h6>
@@ -69,35 +107,18 @@
                 <div class="product d-flex my-2 overflow-hidden">
                     <div class="product-photo border-0">
                         <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="images/mobile1.jpeg" style="width: 60px; object-fit: fill;" class="mx-auto "
+                            <img src="./admin/<?php echo $pimage;?>" style="width: 100px; object-fit: fill;" class="mx-auto "
                                 alt="...">
                         </div>
                     </div>
                     <div class="product-info px-3 py-2">
-                        <h5 onclick="location.href='/shopping/product.php';" style="cursor: pointer;">Redmi Note 10 Pro
-                            (Vintage
-                            Bronze, 128 GB) (8 GB RAM)</h5>
-                        <p>Seller : Amazon</p>
-                        <h3 class="my-3"> ₹21,690</h3>
-                    </div>
-                </div>
-                <div class="product d-flex my-2 overflow-hidden">
-                    <div class="product-photo border-0">
-                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="images/mobile1.jpeg" style="width: 60px; object-fit: fill;" class="mx-auto "
-                                alt="...">
-                        </div>
-                    </div>
-                    <div class="product-info px-3 py-2">
-                        <h5 onclick="location.href='/shopping/product.php';" style="cursor: pointer;">Redmi Note 10 Pro
-                            (Vintage
-                            Bronze, 128 GB) (8 GB RAM)</h5>
-                        <p>Seller : Amazon</p>
-                        <h3 class="my-3"> ₹21,690</h3>
+                        <h5 onclick="location.href=<?php echo $link;?>" style="cursor: pointer;"><?php echo $pname;?> X <?php echo $quantity;?></h5>
+                        <p>Seller : <?php echo $seller;?>
+                        <h5 class="my-3"> ₹<?php echo $price;?> X <?php echo $quantity;?> = ₹<?php echo $price*$quantity;?></h5>
                     </div>
                 </div>
                 <hr class="m-1">
-                <h4 class="p-2">Total Price : ₹43,000</h4>
+                <h4 class="p-2">Total Price : ₹<?php echo $total_price ;?></h4>
             </div> 
         </div>
     </div>

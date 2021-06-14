@@ -61,12 +61,12 @@ include './assets/dbconnect.php';
             border-bottom: 1px solid gray;
         }
 
-        .form-col a {
+        .confirm-button {
             width: 80%;
-            text-align: center;
         }
+        
 
-        .form-col a button {
+        .form-col .button{
             background: #ffe500;
             color: black;
             width: 100%;
@@ -145,37 +145,7 @@ include './assets/dbconnect.php';
                     <a href="./login.php" style="font-size: 18px;">Change</a>
                 </div>
             </div>
-            <div class="address py-2 px-3">
-                <div class="d-flex align-items-center">
-                    <h4 class="mx-2">Address</h4>
-                </div>
-                <hr class="m-2">
-                <div class="d-flex flex-column my-2 ps-3">
 
-                    <?php
-                    $sql2 = "SELECT * FROM `address` WHERE `user_id` = $userid";
-                    $result2 = mysqli_query($conn, $sql2);
-
-                    while ($row2 = mysqli_fetch_assoc($result2)) {
-
-                        echo '<div class="form-check ">
-                        <input class="form-check-input" type="radio" name="addresses" id="flexRadioDefault1" >
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            <h6 class="m-0">' . $row2['fullname'] . ' , ' . $row2['phone_number'] . '</h6>
-                            <p class="m-0">' . $row2['area'] . ', </p>
-                            <p class="m-0">' . $row2['city'] . ', ' . $row2['state'] . ' ,' . $row2['pincode'] . ' </p>
-                        </label>
-                    </div>
-                    <hr class="m-2">';
-                    }
-
-                    ?>
-
-                    <div class="ms-3">
-                        <a href="#">Add new address</a>
-                    </div>
-                </div>
-            </div>
             <div class="order py-2 px-3 my-2">
                 <div class="d-flex align-items-center">
                     <h4 class="mx-2">Order Summary</h4>
@@ -208,10 +178,43 @@ include './assets/dbconnect.php';
                 </div>
                 <hr>
 
+                </div>
+                <form action="successorder.php" method="post" >
+            <div class="address py-2 px-3">
+                <div class="d-flex align-items-center">
+                    <h4 class="mx-2">Address</h4>
+                </div>
+                <hr class="m-2">
+                <div class="d-flex flex-column my-2 ps-3">
 
-                <!-- ---------------------------- -->
+                    <?php
+                    $sql2 = "SELECT * FROM `address` WHERE `user_id` = $userid";
+                    $result2 = mysqli_query($conn, $sql2);
 
+                    while ($row2 = mysqli_fetch_assoc($result2)) {
+
+                        echo '<div class="form-check ">
+                        <input class="form-check-input" type="radio" name="addresses" id="flexRadioDefault1" value="'.$row2['address_id'].'" required>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            <h6 class="m-0">' . $row2['fullname'] . ' , ' . $row2['phone_number'] . '</h6>
+                            <p class="m-0">' . $row2['area'] . ', </p>
+                            <p class="m-0">' . $row2['city'] . ', ' . $row2['state'] . ' ,' . $row2['pincode'] . ' </p>
+                        </label>
+                    </div>
+                    <hr class="m-2">';
+                    }
+
+                    ?>
+
+                    <div class="ms-3">
+                        <a href="#">Add new address</a>
+                    </div>
+                </div>
             </div>
+           
+               
+
+           
             <div class="payment py-2 px-3 my-2">
                 <div class="d-flex align-items-center">
                     <h4 class="mx-2">Payment Options</h4>
@@ -219,25 +222,25 @@ include './assets/dbconnect.php';
                 <hr class="m-2">
                 <div class="d-flex flex-column my-2 ps-3">
                     <div class="form-check my-2">
-                        <input class="form-check-input" type="radio" name="payments" id="flexRadioDefault3" checked="">
+                        <input class="form-check-input" type="radio" name="payments" id="flexRadioDefault3" value="UPI">
                         <label class="form-check-label active" for="flexRadioDefault3">
                             UPI
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="payments" id="flexRadioDefault4" checked>
+                        <input class="form-check-input" type="radio" name="payments" id="flexRadioDefault4" value="Credit / Debit / ATM Card">
                         <label class="form-check-label" for="flexRadioDefault4">
                             Credit / Debit / ATM Card
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="payments" id="flexRadioDefault5" checked>
+                        <input class="form-check-input" type="radio" name="payments" id="flexRadioDefault5" value="Net Banking">
                         <label class="form-check-label" for="flexRadioDefault5">
                             Net Banking
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="payments" id="flexRadioDefault6" checked>
+                        <input class="form-check-input" type="radio" name="payments" id="flexRadioDefault6" checked value="Cash on Delivery">
                         <label class="form-check-label" for="flexRadioDefault6">
                             Cash on Delivery
                         </label>
@@ -264,10 +267,18 @@ include './assets/dbconnect.php';
                 <h5>Total Amount</h5>
                 <h5> ₹<?php echo $total_price+80;?></h5>
             </div>
-            <div class="form-col my-2 d-flex justify-content-center">
-                <a href="./successorder.php"> <button type="submit" class="btn my-2">Confirm Order</button></a>
+            <div class="form-col my-2 mx-auto confirm-button ">
+                    <input type="hidden" name="pid" value="<?php echo $pid;?>">
+                    <input type="hidden" name="pname" value="<?php echo $pname;?>">
+                    <input type="hidden" name="pimage" value="<?php echo $pimage;?>">
+                    <input type="hidden" name="quantity" value="<?php echo $product_quantity;?>">
+                    <input type="hidden" name="price" value="<?php echo $price;?>">
+                    <input type="hidden" name="total_price" value="<?php echo $total_price+80;?>">
+                    <input type="hidden" name="seller" value="<?php echo $pseller;?>">
+                <button type="submit" class="btn my-2 button" name="confirm_order" >Confirm Order</button>
             </div>
         </div>
+        </form>
     </div>
 
 
