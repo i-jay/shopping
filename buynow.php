@@ -82,6 +82,9 @@ include './assets/dbconnect.php';
         .product{
             position: relative;
         }
+        .product-info{
+            width: 600px;
+        }
          .product-price{
             position:absolute;
             right:40px;
@@ -112,7 +115,8 @@ include './assets/dbconnect.php';
         $row2 = mysqli_fetch_assoc($result2);
         $pid = $row2['product_id'];
         $product_quantity = $row2['product_quantity'] ;
-        $price = $row2['total_price'];
+        $price = $row2['product_price']; 
+        $total_price = $row2['total_price'];
   
         $sql3 = "SELECT * FROM `products` WHERE `product_id` = $pid";
         $result3 = mysqli_query($conn, $sql3);
@@ -177,23 +181,7 @@ include './assets/dbconnect.php';
                     <h4 class="mx-2">Order Summary</h4>
                 </div>
                 <hr class="m-2">
-                <!-- <div class="product d-flex my-3 overflow-hidden">
-                    <div class="product-photo border-0">
-                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="images/mobile1.jpeg" style="width: 60px; object-fit: fill;" class="mx-auto "
-                                alt="...">
-                        </div>
-                    </div>
-                    <div class="product-info px-3 py-2">
-                        <h5 onclick="location.href='/shopping/product.php';" style="cursor: pointer;">Redmi Note 10 Pro
-                            (Vintage
-                            Bronze, 128 GB) (8 GB RAM)</h5>
-                        <p>Seller : Amazon</p>
-                        <h3 class="my-3"> ₹21,690</h3>
-                        <a class="mt-2 remove" href="#">Remove</a>
-                    </div>
 
-                </div> -->
                 <div class="product d-flex my-3 overflow-hidden">
                     <div class="product-photo border-0">
                         <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
@@ -205,20 +193,16 @@ include './assets/dbconnect.php';
                         <p>Seller :  <?php echo $pseller;?></p>
                         <div class="m-0">
                             <form action="buynowoperation.php" method="post">
-                                <input type="hidden" name="pid" value=" <?php echo $pid;?>">
-                                <input type="hidden" name="product_price" value=" <?php echo $price;?>">
+                                <input type="hidden" name="pid" value="<?php echo $pid;?>">
+                                <input type="hidden" name="product_price" value="<?php echo $price;?>">
                                 <input type="submit" class="quantitybtn" onclick="decrementValue(<?php echo $pid;?>)" value="-" />
                                 <input type="text" class="text-center mx-1" name="quantity" value="<?php echo $product_quantity;?>" maxlength="2" max="10" size="1" id="number-<?php echo $pid;?>" />
                                 <input type="submit" class="quantitybtn" onclick="incrementValue(<?php echo $pid;?>)" value="+" />
                             </form>
-                            <form action="buynowoperation.php" method="post">
-                                <input type="hidden" name="pid" value="<?php echo $pid;?>">
-                                <button name="deleteproduct" class="btn btn-sm mt-2 remove">REMOVE</button>
-                            </form>
                         </div>
                     </div>
                     <div class="product-price">
-                        <h2 class="my-3 text-center"> ₹<?php echo $price;?></h2>
+                        <h2 class="my-3 text-center"> ₹<?php echo $total_price;?></h2>
                     </div>
 
                 </div>
@@ -268,17 +252,17 @@ include './assets/dbconnect.php';
                 <h4>Price Detail</h4>
             </div>
             <div class="d-flex justify-content-between px-3 py-2">
-                <h5>Price (3 items)</h5>
-                <h5> ₹63,690</h5>
+                <h5>Price</h5>
+                <h5> ₹<?php echo $total_price;?></h5>
             </div>
             <div class="d-flex justify-content-between px-3 py-2">
                 <h5>Delivery Charges</h5>
-                <h5> ₹100</h5>
+                <h5> ₹80</h5>
             </div>
             <hr>
             <div class="d-flex justify-content-between px-3">
                 <h5>Total Amount</h5>
-                <h5> ₹64,000</h5>
+                <h5> ₹<?php echo $total_price+80;?></h5>
             </div>
             <div class="form-col my-2 d-flex justify-content-center">
                 <a href="./successorder.php"> <button type="submit" class="btn my-2">Confirm Order</button></a>

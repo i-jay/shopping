@@ -9,26 +9,16 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
         $quantity = 1;
         $price = $_POST['price'];
 
-        $sql = "SELECT * FROM `buynow` WHERE `Product_id` = $pid AND `user_id` = $user_id";
-        $result = mysqli_query($conn, $sql);
-        $num = mysqli_num_rows($result);
+        $del = "DELETE FROM `buynow` WHERE `user_id` = $user_id";
+        $del_result = mysqli_query($conn, $del);
 
-        if($num == 0){
-            $sql2 = "INSERT INTO `buynow` (`user_id`, `product_id`, `product_quantity`, `product_price`, `total_price`) VALUES (' $user_id', '$pid', ' $quantity', '$price', '$price')";
-            $result2 = mysqli_query($conn, $sql2);
-            
-            if($result2){
-                header('location:buynow.php');
-            }
-        }
-        else{
-            session_start();
-            $_SESSION['productadded'] = true;
-            header('location:mycart.php');
+        $sql2 = "INSERT INTO `buynow` (`user_id`, `product_id`, `product_quantity`, `product_price`, `total_price`) VALUES (' $user_id', '$pid', ' $quantity', '$price', '$price')";
+        $result2 = mysqli_query($conn, $sql2);
+        if($result2){
+            header('location:buynow.php');
         }
 
     }
-
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['quantity'])){
         $user_id = $_SESSION['userid'];
