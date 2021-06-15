@@ -107,14 +107,13 @@ include './assets/dbconnect.php';
                 <div class="product d-flex my-2 overflow-hidden">
                     <div class="product-photo border-0">
                         <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="./admin/<?php echo $pimage;?>" style="width: 100px; object-fit: fill;" class="mx-auto "
+                            <img src="./admin/<?php echo $pimage;?>" style="width: 80px; object-fit: fill;" class="mx-auto "
                                 alt="...">
                         </div>
                     </div>
                     <div class="product-info px-3 py-2">
                         <h5 onclick="location.href=<?php echo $link;?>" style="cursor: pointer;"><?php echo $pname;?> X <?php echo $quantity;?></h5>
-                        <p>Seller : <?php echo $seller;?>
-                        <h5 class="my-3"> ₹<?php echo $price;?> X <?php echo $quantity;?> = ₹<?php echo $price*$quantity;?></h5>
+                        
                     </div>
                 </div>
                 <hr class="m-1">

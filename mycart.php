@@ -76,12 +76,12 @@ include './assets/dbconnect.php';
       border-bottom: 1px solid gray;
     }
 
-    .form-col a {
+    .form-col .placeorder {
       width: 80%;
       text-align: center;
     }
 
-    .form-col a button {
+    .form-col .placeorder {
       background: #ffe500;
       color: black;
       width: 100%;
@@ -249,8 +249,11 @@ include './assets/dbconnect.php';
                               <h5> ₹' . $ptotalprice + 80 . '</h5>
                             </div>
                             <div class="form-col my-2 d-flex justify-content-center">
-                              <a href="./buynow.php"> <button type="submit" class="btn my-2">Place Order</button></a>
-                              <!-- <button type="submit" class="btn my-2 mx-3">Place Order</button> -->
+                              <form action="buynowoperation.php" method="post">
+                                  <input type="hidden" name="pid" value="<?php echo $pid;  ?>">
+                                  <input type="hidden" name="price" value="<?php echo $price;  ?>">
+                                  <button type="submit" name="placeorder" class="placeorder btn btn-primary btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Place Order</button>
+                              </form>
                             </div>
                             </div>';
                 }

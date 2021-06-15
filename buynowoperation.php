@@ -20,6 +20,23 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
 
     }
 
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['placeorder'])){
+        $pid = $_POST['pid'];
+        $user_id = $_SESSION['userid'];
+        $quantity = 1;
+        $price = $_POST['price'];
+
+        $del = "DELETE FROM `buynow` WHERE `user_id` = $user_id";
+        $del_result = mysqli_query($conn, $del);
+
+        $sql2 = "INSERT INTO `buynow` (`user_id`, `product_id`, `product_quantity`, `product_price`, `total_price`) VALUES (' $user_id', '$pid', ' $quantity', '$price', '$price')";
+        $result2 = mysqli_query($conn, $sql2);
+        if($result2){
+            header('location:buynow.php');
+        }
+
+    }
+
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['quantity'])){
         $user_id = $_SESSION['userid'];
         $quantity = $_POST['quantity'];

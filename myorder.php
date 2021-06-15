@@ -68,7 +68,8 @@ include './assets/dbconnect.php';
                 <?php
                     while($row = mysqli_fetch_assoc($result)){
                         $pid = $row['product_id'];
-                        $link = "'/shopping/product.php?pid=$pid'";
+                        $order_id = $row['order_id'];
+                        $link = "'/shopping/orderdetail.php?orderid=$order_id'";
                         $total_price = $row['total_price'];
                         $seller = $row['seller'];
 
@@ -81,7 +82,7 @@ include './assets/dbconnect.php';
                         $pimage = $row2['product_image'];
                        
                         echo '<div class="product d-flex my-2 overflow-hidden flex-column">
-                        <h5>Order id: '.$row['order_id'].'</h5>
+                        <h5>Order id: '.$order_id.'</h5>
                         <div class="product d-flex my-2 overflow-hidden" >
                             <div class="product-photo border-0">
                                 <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">

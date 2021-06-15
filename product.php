@@ -36,6 +36,23 @@ include './assets/dbconnect.php';
       .info{
         width:300px;
       }
+      .icons{
+      position: relative;
+    }
+    .cartnumber[data-count]:after{
+      width: 25px;
+      height: 25px;
+      position:absolute;
+      right:-10px;
+      top:-17px;
+      content: attr(data-count);
+      font-size:15px;
+      padding:2px;
+      border-radius:50%;
+      color: black;
+      background:#ffe500;
+      text-align:center;
+    }
   </style>
 </head>
 
@@ -50,13 +67,13 @@ include './assets/dbconnect.php';
                     class="card-img-top px-5 py-3 mx-auto" alt="...">
             </div>
             <div class="buttons d-flex justify-content-center" style="width: 400px;">
-                <!-- <form action="cartoperation.php" method="post">
-                  <input type="hidden" name="pid" value="' . $pid .  '">
-                  <input type="hidden" name="price" value="' . $price .  '">
-                  <button type="submit" name="addproduct" class="btn btn-primary my-1 border-0" style="background: #ffe500; color: black;">Add to Cart</button>
-                </form> -->
-                <a href="./mycart.php" class="btn btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Add to
-                    Cart</a>
+                <form action="cartoperation.php" method="post">
+                  <input type="hidden" name="pid" value="<?php echo $pid;  ?>">
+                  <input type="hidden" name="price" value="<?php echo $price;  ?>">
+                  <button type="submit" name="addproduct" class="btn btn-primary btn-lg my-1 border-0" style="background: #ffe500; color: black;">Add to Cart</button>
+                </form>
+                <!-- <a href="./mycart.php" class="btn btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Add to
+                    Cart</a> -->
                 <form action="buynowoperation.php" method="post">
                   <input type="hidden" name="pid" value="<?php echo $pid;  ?>">
                   <input type="hidden" name="price" value="<?php echo $price;  ?>">
