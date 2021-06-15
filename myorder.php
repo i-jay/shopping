@@ -51,6 +51,7 @@ include './assets/dbconnect.php';
         if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
 
             $sql = "SELECT * FROM `orders` WHERE `user_id` = '$user_id'" ;
+            $sql = "SELECT DISTINCT `order_id` FROM `orders` ORDER BY `order_date` DESC" ;
             $result = mysqli_query($conn, $sql);
 
         }
@@ -63,56 +64,53 @@ include './assets/dbconnect.php';
     <div class="myorder overflow-hidden">
         <div class="order-list container py-2 px-4">
             <div class="d-flex flex-column">
-                <h4>My Orders</h4> <hr class="my-1">
-
+                <h4>My Orders</h4>
+            </div> 
+        </div>
                 <?php
                     while($row = mysqli_fetch_assoc($result)){
-                        $pid = $row['product_id'];
-                        $order_id = $row['order_id'];
-                        $link = "'/shopping/orderdetail.php?orderid=$order_id'";
-                        $total_price = $row['total_price'];
-                        $seller = $row['seller'];
-
-                        $sql2 = "SELECT * FROM `products` WHERE `product_id` = $pid";
+                        $order_id =  $row['order_id'];
+                        $sql2 = "SELECT * FROM `orders` WHERE `order_id` = '$order_id'" ;
                         $result2 = mysqli_query($conn, $sql2);
-                    
-                        $row2 = mysqli_fetch_assoc($result2);
-                    
-                        $pname = $row2['product_name'];
-                        $pimage = $row2['product_image'];
-                       
-                        echo '<div class="product d-flex my-2 overflow-hidden flex-column">
-                        <h5>Order id: '.$order_id.'</h5>
-                        <div class="product d-flex my-2 overflow-hidden" >
-                            <div class="product-photo border-0">
-                                <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                                    <img src="./admin/'.$pimage.'" style="width: 100px; object-fit: fill;" class="mx-auto "
-                                        alt="...">
+                        
+                        echo '<div class="order-list container py-2 px-4"> 
+                                <div class="product  d-flex my-2 overflow-hidden flex-column">
+                                    <h5>Order id: '.$order_id.'</h5>
+                                       
+                                        <h5>Order Date : 15 June 2021</h5>
+                                  
+                                ';
+
+                        while($row2 = mysqli_fetch_assoc($result2)){
+                            $pid = $row2['product_id'];
+                            $link = "'/shopping/orderdetail.php?orderid=$order_id'";
+     
+                            $sql3 = "SELECT * FROM `products` WHERE `product_id` = $pid";
+                            $result3 = mysqli_query($conn, $sql3);
+                            
+                            $row3 = mysqli_fetch_assoc($result3);
+                            $seller = $row3['product_seller'];
+                            $pname = $row3['product_name'];
+                            $pimage = $row3['product_image'];
+
+                            echo '
+                                <div class="product d-flex my-2 overflow-hidden" >
+                                    <div class="product-photo border-0">
+                                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
+                                            <img src="./admin/'.$pimage.'" style="width: 100px; object-fit: fill;" class="mx-auto "alt="...">
+                                        </div>
+                                    </div>
+                                    <div class="product-info px-3 py-2">
+                                        <h5 onclick="location.href='.$link.';" style="cursor: pointer;">'.$pname.'</h5>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="product-info px-3 py-2">
-                                <h5 onclick="location.href='.$link.';" style="cursor: pointer;">'.$pname.'</h5>
-                                <p>Seller : '.$seller.'</p>
-                                <h3 class="my-3"> ₹'.$total_price.'</h3>
-                            </div>
-                            <div class="px-3 py-2 ps-5">
-                                <h5>Order Date : 15 June 2021</h5>
-                                <h6 class="text-primary my-3" style="cursor: pointer;"><i class="fa fa-times"></i> Cancle</h6>
-                            </div>
-                        </div>
-                    </div> <hr class="my-1">
-                        ';
-
+                        ' ;
+                        }
+                        echo '</div></div>';
                     }
-                ?>
-                
-                
-                
-            </div>
-        </div>
+                ?>          
     </div>
-
-
+    
     <?php include './assets/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"

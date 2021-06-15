@@ -50,22 +50,43 @@ include './assets/dbconnect.php';
       if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
         
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_order'])){
+
             $address_id = $_POST['addresses'];
             $payment_method = $_POST['payments'];
             $pid = $_POST['pid'];
-            $pname = $_POST['pname'];
-            $pimage = $_POST['pimage'];
             $quantity = $_POST['quantity'];
-            $price = $_POST['price'];
             $total_price = $_POST['total_price'];
-            $seller = $_POST['seller'];
-            $link = "'/shopping/product.php?pid=$pid'";
+            $order_id = rand(24738,94525);
 
-            $insert = "INSERT INTO `orders` (`status`, `user_id`, `product_id`, `quantity`, `total_price`, `seller`, `address_id`, `payment_method`, `order_date`, `payment_status`) VALUES ('0', '$user_id', '$pid', '$quantity', '$total_price', '$seller', '$address_id', '$payment_method', current_timestamp(), '1')";
-            $insert_result = mysqli_query($conn, $insert);
-            
+            function checkOrderId($order_id, $conn){
+              $search = "SELECT * FROM `orders` WHERE `order_id` = '$order_id'";
+              $result = mysqli_query($conn, $search);
+              $num = mysqli_num_rows($result);
+              if($num > 0){
+                $order_id = rand(24738,94525);
+                checkOrderId($order_id, $conn);
+              }else{
+                return $order_id;
+              }
+            }
+
+            checkOrderId($order_id, $conn);
+ 
+            $pid_length = count($pid);   
+            for($x=0; $x<$pid_length ; $x++){
+    
+                $product_id = $pid[$x];
+                $product_quantity = $quantity[$x];
+                
+                $insert = "INSERT INTO `orders` (`order_id`,`status`, `user_id`, `product_id`, `quantity`, `order_total_price`, `address_id`, `payment_method`, `order_date`, `payment_status`) VALUES ('$order_id','0', '$user_id', '$product_id', '$product_quantity', '$total_price', '$address_id', '$payment_method', current_timestamp(), '1')";
+                $insert_result = mysqli_query($conn, $insert);
+            } 
+
             $del = "DELETE FROM `buynow` WHERE `user_id` = $user_id";
             $del_result = mysqli_query($conn, $del);
+
+            $del_cart = "DELETE FROM `cart` WHERE `user_id` = $user_id";
+            $del_cart_result = mysqli_query($conn, $del_cart);
 
       }
       else{
@@ -83,6 +104,7 @@ include './assets/dbconnect.php';
             <div class="d-flex flex-column">
                 <h4>Delivery Address</h4>
                 <?php
+
                     $sql2 = "SELECT * FROM `address` WHERE `address_id` = $address_id";
                     $result2 = mysqli_query($conn, $sql2);
                     $row2 = mysqli_fetch_assoc($result2);
@@ -104,19 +126,38 @@ include './assets/dbconnect.php';
         <div class="order-detail container py-2 px-4">
             <div class="d-flex flex-column">
                 <h4>Order Detail</h4>
-                <div class="product d-flex my-2 overflow-hidden">
-                    <div class="product-photo border-0">
-                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="./admin/<?php echo $pimage;?>" style="width: 80px; object-fit: fill;" class="mx-auto "
-                                alt="...">
-                        </div>
-                    </div>
-                    <div class="product-info px-3 py-2">
-                        <h5 onclick="location.href=<?php echo $link;?>" style="cursor: pointer;"><?php echo $pname;?> X <?php echo $quantity;?></h5>
-                        
-                    </div>
-                </div>
-                <hr class="m-1">
+                <?php 
+                   $sql4 = "SELECT * FROM `orders` WHERE `order_id` = $order_id";
+                   $result4 = mysqli_query($conn, $sql4);
+                while($row4 = mysqli_fetch_assoc($result4)){
+                  $pid = $row4['product_id'];
+                  $product_quantity = $row4['quantity'] ;
+                  $total_price = $row4['order_total_price'];
+
+              
+                  $sql5 = "SELECT * FROM `products` WHERE `product_id` = $pid";
+                  $result5 = mysqli_query($conn, $sql5);
+                  $row5 = mysqli_fetch_assoc($result5);
+          
+                  $pname = $row5['product_name'];
+                  $pimage = $row5['product_image'];
+
+                  $link = "'/shopping/product.php?pid=$pid'";
+                
+                  echo '<div class="product d-flex my-2 overflow-hidden">
+                  <div class="product-photo border-0">
+                      <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
+                          <img src="./admin/'.$pimage.'" style="width: 80px; object-fit: fill;" class="mx-auto "
+                              alt="...">
+                      </div>
+                  </div>
+                  <div class="product-info px-3 py-2">
+                      <h5>'.$pname.' X '.$product_quantity.'</h5>
+                      
+                  </div>
+              </div>
+              <hr class="m-1">'; }
+                ?>
                 <h4 class="p-2">Total Price : ₹<?php echo $total_price ;?></h4>
             </div> 
         </div>

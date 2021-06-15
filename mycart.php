@@ -182,7 +182,6 @@ include './assets/dbconnect.php';
 
                   while($row = mysqli_fetch_assoc($result)){
                     $pid = $row['product_id'];
-      
                     $sql2 = "SELECT * FROM `products` WHERE `product_id` = $pid";
                     $result2 = mysqli_query($conn, $sql2);
                     $row2 = mysqli_fetch_assoc($result2);
@@ -249,9 +248,16 @@ include './assets/dbconnect.php';
                               <h5> ₹' . $ptotalprice + 80 . '</h5>
                             </div>
                             <div class="form-col my-2 d-flex justify-content-center">
-                              <form action="buynowoperation.php" method="post">
-                                  <input type="hidden" name="pid" value="<?php echo $pid;  ?>">
-                                  <input type="hidden" name="price" value="<?php echo $price;  ?>">
+                              <form action="buynowoperation.php" method="post">';
+
+                              $sql4 = "SELECT * FROM `cart` WHERE `user_id` = $user_id";
+                              $result4 = mysqli_query($conn, $sql4);
+                              while($row4 = mysqli_fetch_assoc($result4)){
+                                echo '<input type="hidden" name="pid[]" value="'.$row4['product_id'].'">';
+                                echo '<input type="hidden" name="quantity[]" value="'.$row4['product_quantity'].'">';
+                                echo '<input type="hidden" name="price[]" value="'.$row4['product_price'].'">';
+                            }
+                                  echo '
                                   <button type="submit" name="placeorder" class="placeorder btn btn-primary btn-lg my-1 mx-2 border-0 px-4" style="background: #ffe500; color: black;">Place Order</button>
                               </form>
                             </div>

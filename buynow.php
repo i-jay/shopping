@@ -1,6 +1,6 @@
 <?php
 include './assets/dbconnect.php';
-
+$ptotalprice = 0;
 ?>
 <!doctype html>
 <html lang="en">
@@ -107,28 +107,6 @@ include './assets/dbconnect.php';
         $email = $row['email'];
         $phoneno = $row['phone_number'];
 
-
-        $user_id = $_SESSION['userid'];
-      
-        $sql2 = "SELECT * FROM `buynow` WHERE `user_id` = $user_id";
-        $result2 = mysqli_query($conn, $sql2);
-        $row2 = mysqli_fetch_assoc($result2);
-        $pid = $row2['product_id'];
-        $product_quantity = $row2['product_quantity'] ;
-        $price = $row2['product_price']; 
-        $total_price = $row2['total_price'];
-  
-        $sql3 = "SELECT * FROM `products` WHERE `product_id` = $pid";
-        $result3 = mysqli_query($conn, $sql3);
-        $row3 = mysqli_fetch_assoc($result3);
-
-        $pname = $row3['product_name'];
-        $pimage = $row3['product_image'];
-       
-        $pseller = $row3['product_seller'];
-        
-
-        $link = "'/shopping/product.php?pid=$pid'";
     } else {
         header('location:login.php');
     }
@@ -152,32 +130,55 @@ include './assets/dbconnect.php';
                 </div>
                 <hr class="m-2">
 
+                <?php
+                 $sql3 = "SELECT * FROM `buynow` WHERE `user_id` = $user_id";
+                 $result3 = mysqli_query($conn, $sql3);
+                while($row3 = mysqli_fetch_assoc($result3)){
+                    $pid = $row3['product_id'];
+                    $product_quantity = $row3['product_quantity'] ;
+                    $price = $row3['product_price']; 
+                    $total_price = $row3['total_price'];
+
+                    $ptotalprice = $ptotalprice + $total_price;
+
+
+                    $sql4 = "SELECT * FROM `products` WHERE `product_id` = $pid";
+                    $result4 = mysqli_query($conn, $sql4);
+                    $row4 = mysqli_fetch_assoc($result4);
+            
+                    $pname = $row4['product_name'];
+                    $pimage = $row4['product_image'];
+                    $pseller = $row4['product_seller'];
+                    $link = "'/shopping/product.php?pid=$pid'";
+                   
+                    echo '
                 <div class="product d-flex my-3 overflow-hidden">
                     <div class="product-photo border-0">
                         <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                            <img src="./admin/<?php echo $pimage;?>" style="width: 90px; object-fit: fill;" class="mx-auto " alt="...">
+                            <img src="./admin/'.$pimage.'" style="width: 90px; object-fit: fill;" class="mx-auto " alt="...">
                         </div>
                     </div>
                     <div class="product-info p-3">
-                        <h5 onclick="location.href=<?php echo $link ;?>" style="cursor: pointer;"> <?php echo $pname;?></h5>
-                        <p>Seller :  <?php echo $pseller;?></p>
+                        <h5 onclick="location.href='.$link.'" style="cursor: pointer;">'.$pname.'</h5>
+                        <p>Seller : '.$pseller.'</p>
                         <div class="m-0">
                             <form action="buynowoperation.php" method="post">
-                                <input type="hidden" name="pid" value="<?php echo $pid;?>">
-                                <input type="hidden" name="product_price" value="<?php echo $price;?>">
-                                <input type="submit" class="quantitybtn" onclick="decrementValue(<?php echo $pid;?>)" value="-" />
-                                <input type="text" class="text-center mx-1" name="quantity" value="<?php echo $product_quantity;?>" maxlength="2" max="10" size="1" id="number-<?php echo $pid;?>" />
-                                <input type="submit" class="quantitybtn" onclick="incrementValue(<?php echo $pid;?>)" value="+" />
+                                <input type="hidden" name="pid" value="'.$pid.'">
+                                <input type="hidden" name="product_price" value="'.$price.'">
+                                <input type="submit" class="quantitybtn" onclick="decrementValue('.$pid.')" value="-" />
+                                <input type="text" class="text-center mx-1" name="quantity" value="'.$product_quantity.'" maxlength="2" max="10" size="1" id="number-'.$pid.'" />
+                                <input type="submit" class="quantitybtn" onclick="incrementValue('.$pid.')" value="+" />
                             </form>
                         </div>
                     </div>
                     <div class="product-price">
-                        <h2 class="my-3 text-center"> ₹<?php echo $total_price;?></h2>
+                        <h2 class="my-3 text-center"> ₹'.$total_price.'</h2>
                     </div>
 
                 </div>
-                <hr>
-
+                <hr>';
+                }
+                ?>
                 </div>
                 <form action="successorder.php" method="post" >
             <div class="address py-2 px-3">
@@ -256,7 +257,7 @@ include './assets/dbconnect.php';
             </div>
             <div class="d-flex justify-content-between px-3 py-2">
                 <h5>Price</h5>
-                <h5> ₹<?php echo $total_price;?></h5>
+                <h5> ₹<?php echo $ptotalprice;?></h5>
             </div>
             <div class="d-flex justify-content-between px-3 py-2">
                 <h5>Delivery Charges</h5>
@@ -265,16 +266,18 @@ include './assets/dbconnect.php';
             <hr>
             <div class="d-flex justify-content-between px-3">
                 <h5>Total Amount</h5>
-                <h5> ₹<?php echo $total_price+80;?></h5>
+                <h5> ₹<?php echo $ptotalprice+80;?></h5>
             </div>
             <div class="form-col my-2 mx-auto confirm-button ">
-                    <input type="hidden" name="pid" value="<?php echo $pid;?>">
-                    <input type="hidden" name="pname" value="<?php echo $pname;?>">
-                    <input type="hidden" name="pimage" value="<?php echo $pimage;?>">
-                    <input type="hidden" name="quantity" value="<?php echo $product_quantity;?>">
-                    <input type="hidden" name="price" value="<?php echo $price;?>">
-                    <input type="hidden" name="total_price" value="<?php echo $total_price+80;?>">
-                    <input type="hidden" name="seller" value="<?php echo $pseller;?>">
+                <?php
+                    $sql4 = "SELECT * FROM `buynow` WHERE `user_id` = $user_id";
+                    $result4 = mysqli_query($conn, $sql4);
+                    while($row4 = mysqli_fetch_assoc($result4)){
+                    echo '<input type="hidden" name="pid[]" value="'.$row4['product_id'].'">';
+                    echo '<input type="hidden" name="quantity[]" value="'.$row4['product_quantity'].'">';
+                    }
+                ?>               
+                    <input type="hidden" name="total_price" value="<?php echo $ptotalprice+80;?>">
                 <button type="submit" class="btn my-2 button" name="confirm_order" >Confirm Order</button>
             </div>
         </div>

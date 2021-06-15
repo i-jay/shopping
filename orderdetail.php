@@ -56,9 +56,7 @@ $order_id = $_GET['orderid'];
             $row = mysqli_fetch_assoc($result);
 
             $address_id = $row['address_id'];
-            $product_id = $row['product_id'];
-            $quantity = $row['quantity'];
-            $total_price = $row['total_price'];
+            $total_price = $row['order_total_price'];
 
         }
         else{
@@ -108,11 +106,15 @@ $order_id = $_GET['orderid'];
                         <h4>Order Detail</h4>
                         <hr class="m-1">
                         <?php
-
+                            $sql3 = "SELECT * FROM `orders` WHERE `order_id` = '$order_id'";
+                            $result3 = mysqli_query($conn, $sql3);
+                            while($row3 = mysqli_fetch_assoc($result3)){
+                                $product_id = $row3['product_id'];
+                                $quantity = $row3['quantity'];
+                                $product_id = $row3['product_id'];
                                 $sql2 = "SELECT * FROM `products` WHERE `product_id` = $product_id";
                                 $result2 = mysqli_query($conn, $sql2);
 
-                                
                                 while($row2 = mysqli_fetch_assoc($result2)){
                                     $price = $row2['product_price'];
                                     
@@ -136,15 +138,20 @@ $order_id = $_GET['orderid'];
                                     ' . $quantity . ' = ₹
                                     ' . $price*$quantity . ' 
                                     </h5>
-                                    <h5>Delivery fee : ₹80</h5>
                                 </div>
                             </div>
                             <hr class="m-1">';
                             }
+                            }
+                               
+                                
+                                
                         ?>
 
+                        <h5 class="px-2">Delivery fee : ₹80</h5>
                         <h4 class="p-2">Total Price : ₹
                             <?php echo $total_price ;?>
+                            
                         </h4>
                     </div>
                 </div>
