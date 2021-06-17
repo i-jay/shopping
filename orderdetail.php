@@ -57,6 +57,7 @@ $order_id = $_GET['orderid'];
 
             $address_id = $row['address_id'];
             $total_price = $row['order_total_price'];
+            $payment_method = $row['payment_method'];
 
         }
         else{
@@ -97,7 +98,7 @@ $order_id = $_GET['orderid'];
                             </div>
                             <div class="mx-5 mt-2">
                                 <h6>Delivery Expected by 15 August</h6>
-                                <h6>Payment Method : COD</h6>
+                                
                             </div>
                         </div>
                     </div>
@@ -147,12 +148,11 @@ $order_id = $_GET['orderid'];
                                 
                                 
                         ?>
-
+                        <div class="d-flex justify-content-between">
                         <h5 class="px-2">Delivery fee : ₹80</h5>
-                        <h4 class="p-2">Total Price : ₹
-                            <?php echo $total_price ;?>
-                            
-                        </h4>
+                        <h5>Payment Method : <?php echo $payment_method  ;?> </h5>
+                        </div>
+                        <h4 class="p-2">Total Price : ₹<?php echo $total_price ;?></h4>
                     </div>
                 </div>
 

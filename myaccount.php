@@ -95,6 +95,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['deleteId'])){
       right: 40px;
       top: 20%;
     }
+    .icons{
+            position: relative;
+        }
+    .cartnumber[data-count]:after{
+        width: 25px;
+        height: 25px;
+        position:absolute;
+        right:-10px;
+        top:-17px;
+        content: attr(data-count);
+        font-size:15px;
+        padding:2px;
+        border-radius:50%;
+        color: black;
+        background:#ffe500;
+        text-align:center;
+    }
   </style>
 </head>
 

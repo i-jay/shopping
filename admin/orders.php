@@ -1,6 +1,13 @@
 <?php
 include '../assets/dbconnect.php';
 
+session_start();
+$username = $_SESSION['username'];
+
+if(!isset($_SESSION['adminloggedin'])){
+    header('location:adminlogin.php');
+}
+
 $sql = "SELECT * FROM `orders`";
 $result = mysqli_query($conn, $sql);
 
@@ -50,6 +57,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-color: rgba(0, 0, 0, 0.8);
             box-shadow: none;
             /* outline: 0 none; */
+        }
+        .icons{
+            position: relative;
+        }
+        .cartnumber[data-count]:after{
+            width: 25px;
+            height: 25px;
+            position:absolute;
+            right:-10px;
+            top:-17px;
+            content: attr(data-count);
+            font-size:15px;
+            padding:2px;
+            border-radius:50%;
+            color: black;
+            background:#ffe500;
+            text-align:center;
         }
     </style>
 </head>
@@ -104,8 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     class="btn btn-primary btn-sm logoutbtn">Go to Website</a></li>
             <li class="d-flex align-items-center ms-2">
                 <a class="nav-link me-2" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user me-2"></i> Shyam</a>
-                <a href="./logout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
+                    aria-expanded="false"><i class="fas fa-user me-2"></i> <?php echo $username; ?></a>
+                <a href="./adminlogout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
             </li>
         </ul>
     </nav>

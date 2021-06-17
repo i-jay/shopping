@@ -2,6 +2,13 @@
 
 include '../assets/dbconnect.php';  
 
+session_start();
+// $seller_id = $_SESSION['seller_id'];
+// $seller_name = $_SESSION['seller_name'];
+if(!isset($_SESSION['adminloggedin'])){
+    header('location:adminlogin.php');
+}
+
 if( isset($_GET['pid']) ){
     $product_id = $_GET["pid"];
 }
@@ -116,7 +123,7 @@ $price = $row['product_price'];
             <li class="d-flex align-items-center ms-2">
                 <a class="nav-link me-2" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fas fa-user me-2"></i> Shyam</a>
-                <a href="./logout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
+                <a href="./adminlogout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
             </li>
         </ul>
     </nav>

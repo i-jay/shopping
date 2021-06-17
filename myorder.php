@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header('location:myorder.php');
         }
     }
-
 }
 ?>
 <!doctype html>
@@ -65,6 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .orderdate{
             width:30%;
         }
+        .empty{
+            min-height:55vh;
+            /* width: 100vw; */
+            background: rgb(255, 255, 255);
+            border-radius: 10px;
+            margin:20px;
+    }
     </style>
 </head>
 
@@ -73,9 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user_id = $_SESSION['userid'];
         if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']== true){
 
-            $sql = "SELECT * FROM `orders` WHERE `user_id` = '$user_id'" ;
-            $sql = "SELECT DISTINCT `order_id` FROM `orders` ORDER BY `order_date` DESC" ;
+            $sql = "SELECT DISTINCT `order_id` FROM `orders` WHERE `user_id` = '$user_id' ORDER BY `order_date` DESC" ;
             $result = mysqli_query($conn, $sql);
+            $num = mysqli_num_rows($result);
 
         }
         else{
@@ -111,55 +117,73 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <div class="myorder overflow-hidden">
-        <div class="order-list container py-2 px-4">
-            <div class="d-flex flex-column">
-                <h4>My Orders</h4>
-            </div> 
-        </div>
-                <?php
-                    while($row = mysqli_fetch_assoc($result)){
-                        $order_id =  $row['order_id'];
-                        $sql2 = "SELECT * FROM `orders` WHERE `order_id` = '$order_id'" ;
-                        $result2 = mysqli_query($conn, $sql2);
-                        
-                        echo '<div class="order-list container py-2 px-4"> 
-                                <div class="product  d-flex my-2 overflow-hidden flex-column">
-                                    <div class="d-flex justify-content-between" >
-                                        <h5>Order id: '.$order_id.'</h5>
-                                        <h5>Order Date : 15 June 2021</h5>
-                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="del(' . $order_id .')">Cancel Order</button>
-                                    </div><hr class="my-1">';
-                                    
+    <?php
 
-                        while($row2 = mysqli_fetch_assoc($result2)){
-                            $pid = $row2['product_id'];
-                            $order_price = $row2['order_total_price'];
-                            $link = "'/shopping/orderdetail.php?orderid=$order_id'";
-     
-                            $sql3 = "SELECT * FROM `products` WHERE `product_id` = $pid";
-                            $result3 = mysqli_query($conn, $sql3);
+        if($num == 0){
+                echo '<div class="empty d-flex align-items-center justify-content-center flex-column">
+            <h4>Your Order is Empty.</h4>
+            <a href="./index.php" class="btn btn-primary mt-3">Shopping Now</a>
+            </div>';
+        }
+        else{
+
+            echo '<div class="myorder overflow-hidden">
+                    <div class="order-list container py-2 px-4">
+                        <div class="d-flex flex-column">
+                            <h4>My Orders</h4>
+                        </div> 
+                    </div>';
+
+            while($row = mysqli_fetch_assoc($result)){
+                $order_id =  $row['order_id'];
+                $sql2 = "SELECT * FROM `orders` WHERE `order_id` = '$order_id'" ;
+                $result2 = mysqli_query($conn, $sql2);
+
+                $sql4 = "SELECT * FROM `orders` WHERE `order_id` = '$order_id'";
+                $result4 = mysqli_query($conn, $sql4);
+                $row4 = mysqli_fetch_assoc($result4);
+                $order_date =  $row4['order_date'];
+                
+                echo '<div class="order-list container py-2 px-4"> 
+                        <div class="product  d-flex my-2 overflow-hidden flex-column">
+                            <div class="d-flex justify-content-between" >
+                                <h5>Order id: '.$order_id.'</h5>
+                                <h5>Order Date : '.$order_date.'</h5>
+                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="del(' . $order_id .')">Cancel Order</button>
+                            </div><hr class="my-1">';
                             
-                            $row3 = mysqli_fetch_assoc($result3);
-                            $seller = $row3['product_seller'];
-                            $pname = $row3['product_name'];
-                            $pimage = $row3['product_image'];
 
-                            echo '  <div class="product-item d-flex my-2 overflow-hidden" >
-                                        <div class="product-photo border-0">
-                                            <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                                                <img src="./admin/'.$pimage.'" style="width: 100px; object-fit: fill;" class="mx-auto "alt="...">
-                                            </div>
-                                        </div>
-                                        <div class="product-info px-3 py-2">
-                                            <h5 onclick="location.href='.$link.';" style="cursor: pointer;">'.$pname.'</h5>
-                                        </div>
-                                    </div> ';         
-                        }
-                        echo '<hr class="my-1"> <h5 class="px-2 pt-2">Total Price : ' . $order_price . ' </h5></div></div>';
-                    }
-                ?>          
-    </div>
+                while($row2 = mysqli_fetch_assoc($result2)){
+                    $pid = $row2['product_id'];
+                    $order_price = $row2['order_total_price'];
+                    $link = "'/shopping/orderdetail.php?orderid=$order_id'";
+
+                    $sql3 = "SELECT * FROM `products` WHERE `product_id` = $pid";
+                    $result3 = mysqli_query($conn, $sql3);
+                    
+                    $row3 = mysqli_fetch_assoc($result3);
+                    $seller = $row3['product_seller'];
+                    $pname = $row3['product_name'];
+                    $pimage = $row3['product_image'];
+
+                    echo '  <div class="product-item d-flex my-2 overflow-hidden" >
+                                <div class="product-photo border-0">
+                                    <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
+                                        <img src="./admin/'.$pimage.'" style="width: 100px; object-fit: fill;" class="mx-auto "alt="...">
+                                    </div>
+                                </div>
+                                <div class="product-info px-3 py-2">
+                                    <h5 onclick="location.href='.$link.';" style="cursor: pointer;">'.$pname.'</h5>
+                                </div>
+                            </div> ';         
+                }
+                echo '<hr class="my-1"> <h5 class="px-2 pt-2">Total Price : ' . $order_price . ' </h5></div></div>';
+            }
+
+            echo '</div>';
+  
+        }
+    ?>          
     
     <?php include './assets/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"

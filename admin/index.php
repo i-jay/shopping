@@ -1,6 +1,13 @@
 <?php
 include '../assets/dbconnect.php';
 
+session_start();
+$username = $_SESSION['username'];
+
+if(!isset($_SESSION['adminloggedin'])){
+    header('location:adminlogin.php');
+}
+
 $sql1 = "SELECT * FROM `products`";
 $result1 = mysqli_query($conn, $sql1);
 $products = mysqli_num_rows($result1);
@@ -69,8 +76,8 @@ $sellers = mysqli_num_rows($result4);
             <li class="d-flex align-items-center me-5"><a href="../index.php" class="btn btn-primary btn-sm logoutbtn">Go to Website</a></li>
             <li class="d-flex align-items-center ms-2">
                 <a class="nav-link me-2" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user me-2"></i> Shyam</a>
-                <a href="./logout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
+                    aria-expanded="false"><i class="fas fa-user me-2"></i> <?php echo $username; ?></a>
+                <a href="./adminlogout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
             </li>
         </ul>
     </nav>
