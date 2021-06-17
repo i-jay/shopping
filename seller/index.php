@@ -1,21 +1,19 @@
 <?php
 include '../assets/dbconnect.php';
+session_start();
+$seller_id = $_SESSION['seller_id'];
+$seller_name = $_SESSION['seller_name'];
+if(!isset($_SESSION['sellerloggedin'])){
+    header('location:sellerlogin.php');
+}
 
-$sql1 = "SELECT * FROM `products`";
+$sql1 = "SELECT * FROM `products` WHERE `seller_id` = '$seller_id'";
 $result1 = mysqli_query($conn, $sql1);
 $products = mysqli_num_rows($result1);
 
 $sql2 = "SELECT * FROM `orders`";
 $result2 = mysqli_query($conn, $sql2);
 $orders = mysqli_num_rows($result2);
-
-$sql3 = "SELECT * FROM `users`";
-$result3 = mysqli_query($conn, $sql3);
-$users = mysqli_num_rows($result3);
-
-$sql4 = "SELECT * FROM `sellers`";
-$result4 = mysqli_query($conn, $sql4);
-$sellers = mysqli_num_rows($result4);
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +23,7 @@ $sellers = mysqli_num_rows($result4);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Shopping </title>
+    <title>Seller - Shopping </title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
@@ -66,10 +64,11 @@ $sellers = mysqli_num_rows($result4);
         </form>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-auto me-3 me-lg-4">
-            <li class="d-flex align-items-center">
-                <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user me-2"></i> Shyam</a>
-                <a href="./logout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
+        <li class="d-flex align-items-center me-5"><a href="../index.php" class="btn btn-primary btn-sm logoutbtn">Go to Website</a></li>
+            <li class="d-flex align-items-center ms-2">
+            <a class="nav-link me-2" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false"><i class="fas fa-user me-2"></i> <?php echo  $seller_name; ?></a>
+            <a href="./sellerlogout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>';  
             </li>
         </ul>
     </nav>
@@ -127,7 +126,7 @@ $sellers = mysqli_num_rows($result4);
             <footer class="py-3 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class=" small">
-                        <div class="text-muted text-center fs-6">Copyright &copy; shopping 2021</div>
+                        <div class="text-center fs-6">Copyright &copy; shopping 2021</div>
                     </div>
                 </div>
             </footer>

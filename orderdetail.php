@@ -97,6 +97,7 @@ $order_id = $_GET['orderid'];
                             </div>
                             <div class="mx-5 mt-2">
                                 <h6>Delivery Expected by 15 August</h6>
+                                <h6>Payment Method : COD</h6>
                             </div>
                         </div>
                     </div>
@@ -135,8 +136,7 @@ $order_id = $_GET['orderid'];
                                        ' . $row2['product_seller'] . '
                                     <h5 class="my-3"> ₹
                                     ' . $row2['product_price'] . ' X
-                                    ' . $quantity . ' = ₹
-                                    ' . $price*$quantity . ' 
+                                    ' . $quantity . ' = ₹ ' . $price*$quantity . ' 
                                     </h5>
                                 </div>
                             </div>

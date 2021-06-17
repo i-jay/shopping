@@ -1,5 +1,19 @@
 <?php
-include './assets/dbconnect.php'; 
+include './assets/dbconnect.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    if(isset($_POST['deleteId'])){
+        $deleteId = $_POST['deleteId'];
+        $sql2 = "DELETE FROM `orders` WHERE `orders`.`order_id` = $deleteId";
+        $result2 = mysqli_query($conn, $sql2);
+    
+        if ($result2) {
+            header('location:myorder.php');
+        }
+    }
+
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -42,6 +56,15 @@ include './assets/dbconnect.php';
             margin: 15px auto;
             border-radius: 8px;
         }
+        .product{
+            width:100%;
+        }
+        .product-item{
+            width:70%;
+        }
+        .orderdate{
+            width:30%;
+        }
     </style>
 </head>
 
@@ -61,6 +84,33 @@ include './assets/dbconnect.php';
 
     ?>
 
+    <!-- delete modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to cancel this Order?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="myorder.php" method="POST">
+                        <input type="hidden" name="deleteId" id="deleteId">
+                        <div class="mb-2 ">
+                            <p> Order id : <strong><span id="deleteorder"></span></strong></p>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <div class="myorder overflow-hidden">
         <div class="order-list container py-2 px-4">
             <div class="d-flex flex-column">
@@ -75,14 +125,16 @@ include './assets/dbconnect.php';
                         
                         echo '<div class="order-list container py-2 px-4"> 
                                 <div class="product  d-flex my-2 overflow-hidden flex-column">
-                                    <h5>Order id: '.$order_id.'</h5>
-                                       
+                                    <div class="d-flex justify-content-between" >
+                                        <h5>Order id: '.$order_id.'</h5>
                                         <h5>Order Date : 15 June 2021</h5>
-                                  
-                                ';
+                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="del(' . $order_id .')">Cancel Order</button>
+                                    </div><hr class="my-1">';
+                                    
 
                         while($row2 = mysqli_fetch_assoc($result2)){
                             $pid = $row2['product_id'];
+                            $order_price = $row2['order_total_price'];
                             $link = "'/shopping/orderdetail.php?orderid=$order_id'";
      
                             $sql3 = "SELECT * FROM `products` WHERE `product_id` = $pid";
@@ -93,20 +145,18 @@ include './assets/dbconnect.php';
                             $pname = $row3['product_name'];
                             $pimage = $row3['product_image'];
 
-                            echo '
-                                <div class="product d-flex my-2 overflow-hidden" >
-                                    <div class="product-photo border-0">
-                                        <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
-                                            <img src="./admin/'.$pimage.'" style="width: 100px; object-fit: fill;" class="mx-auto "alt="...">
+                            echo '  <div class="product-item d-flex my-2 overflow-hidden" >
+                                        <div class="product-photo border-0">
+                                            <div class="m-2 overflow-hidden d-flex justify-content-center" style="width: 150px;">
+                                                <img src="./admin/'.$pimage.'" style="width: 100px; object-fit: fill;" class="mx-auto "alt="...">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="product-info px-3 py-2">
-                                        <h5 onclick="location.href='.$link.';" style="cursor: pointer;">'.$pname.'</h5>
-                                    </div>
-                                </div>
-                        ' ;
+                                        <div class="product-info px-3 py-2">
+                                            <h5 onclick="location.href='.$link.';" style="cursor: pointer;">'.$pname.'</h5>
+                                        </div>
+                                    </div> ';         
                         }
-                        echo '</div></div>';
+                        echo '<hr class="my-1"> <h5 class="px-2 pt-2">Total Price : ' . $order_price . ' </h5></div></div>';
                     }
                 ?>          
     </div>
@@ -115,6 +165,20 @@ include './assets/dbconnect.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
         crossorigin="anonymous"></script>
+
+        <script>
+
+            function del(id) {
+                let row = document.getElementById("row-" + id);
+                let deleteorder = document.getElementById("deleteorder");
+                deleteorder.innerHTML = id;
+
+                let deleteId = document.getElementById("deleteId");
+                deleteId.value = id;
+            }
+
+</script>
+
 
 </body>
 

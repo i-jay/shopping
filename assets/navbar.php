@@ -49,13 +49,13 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
     echo '<div class="icons d-flex align-items-center">
     <a href="/shopping/myaccount.php" style="color: white; text-decoration: none; font-size: 20px; margin-right: 20px;"><i  class="fa fa-user mx-2" style="line-height: 25px; font-size: 25px; color: white;"> </i>'.$_SESSION['firstname'].' </a>
     <a type="button" class="btn btn-warning my-2 my-sm-0 mx-2" href="logout.php" style="background: #ffe500">Logout</a> 
-    </>';
+    </div>';
   }
   else{
-    echo '<div class="d-flex">
+    echo '<div class="icons d-flex align-items-center">
     <a type="button" class="btn btn-warning my-2 my-sm-0 mx-2" href="login.php" style="background: #ffe500">Login</a>
     <a type="button" class="btn btn-warning my-2 my-sm-0" href="./signup.php" style="background: #ffe500">SignUp</a>
-</div>';
+    </div>';
   }
  
 echo '

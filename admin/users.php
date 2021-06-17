@@ -1,3 +1,26 @@
+<?php
+include '../assets/dbconnect.php';
+
+$sql = "SELECT * FROM `users`";
+$result = mysqli_query($conn, $sql);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    if(isset($_POST['deleteId'])){
+        $deleteId = $_POST['deleteId'];
+        $sql2 = "DELETE FROM `users` WHERE `users`.`user_id` = $deleteId";
+        $result2 = mysqli_query($conn, $sql2);
+    
+        if ($result2) {
+            header('location:users.php');
+            
+        }
+    }
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,6 +52,34 @@
 </head>
 
 <body class="sb-nav-fixed">
+
+    <!-- delete modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete this User ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="../admin/users.php" method="POST">
+                        <input type="hidden" name="deleteId" id="deleteId">
+                        <div class="mb-2 ">
+                            <p> User Email : <strong><span id="deleteuser"></span></strong></p>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.php">Shopping</a>
@@ -108,41 +159,34 @@
                                         <th>Last Name</th>
                                         <th>Email</th>
                                         <th>Profile Image</th>
-                                        <th colspan=2 class="text-center">Actions</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Shyam</td>
-                                        <td>Odedra</td>
-                                        <td>shyamodedra@gmail.com</td>
-                                        <td>Image</td>
-                                        <td>Edit</td>
-                                        <td>Delete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Shyam</td>
-                                        <td>Odedra</td>
-                                        <td>shyamodedra@gmail.com</td>
-                                        <td>Image</td>
-                                        <td>Edit</td>
-                                        <td>Delete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Shyam</td>
-                                        <td>Odedra</td>
-                                        <td>shyamodedra@gmail.com</td>
-                                        <td>Image</td>
-                                        <td>Edit</td>
-                                        <td>Delete</td>
-                                    </tr>
-                                    
 
+                                <?php
 
+                                    $srno = 0;
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $user_id = $row['user_id'];
+                                        $firstname = $row['firstname'];
+                                        $lastname = $row['lastname'];
+                                        $email = $row['email'];
+                                        // $image = $row['profile_image'];
+                                        $srno = $srno + 1;
+
+                                        echo '  <tr id= "row-' . $user_id . '">
+                                                    <td>' . $srno .'</td>
+                                                    <td>' . $firstname .'</td>
+                                                    <td>' . $lastname .'</td>
+                                                    <td>' . $email .'</td>
+                                                    <td>Image</td>
+                                                    <td class="text-center"><button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="del(' . $row["user_id"] .')">Delete</button></td>
+                                                </tr>';
+                                    }
+
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -166,6 +210,19 @@
     <script src="assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
+
+    <script>
+
+    function del(id){
+        let row = document.getElementById("row-"+id) ;
+        let deleteuser = document.getElementById("deleteuser");
+        deleteuser.innerHTML = row.getElementsByTagName("td")[3].innerText ;
+
+        let deleteId = document.getElementById("deleteId");
+        deleteId.value = id ;
+    }
+    
+    </script>
 
 </body>
 

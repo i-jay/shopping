@@ -1,3 +1,18 @@
+<?php
+include '../assets/dbconnect.php';
+session_start();
+$seller_id = $_SESSION['seller_id'];
+$seller_name = $_SESSION['seller_name'];
+
+if(!isset($_SESSION['sellerloggedin'])){
+    header('location:sellerlogin.php');
+}
+
+$sql = "SELECT * FROM `orders`";
+$result = mysqli_query($conn, $sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +20,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Shopping </title>
+    <title>Seller Orders - Shopping </title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
@@ -32,6 +47,34 @@
 </head>
 
 <body class="sb-nav-fixed">
+
+      <!-- delete modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Are you sure you want to delete this Order?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="../admin/orders.php" method="POST">
+                        <input type="hidden" name="deleteId" id="deleteId">
+                        <div class="mb-2 ">
+                            <p> Order id : <strong><span id="deleteorder"></span></strong></p>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>   
+
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.php">Shopping</a>
@@ -49,10 +92,11 @@
         </form>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-auto me-3 me-lg-4">
-            <li class="d-flex align-items-center">
-                <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user me-2"></i> Shyam</a>
-                <a href="./logout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
+        <li class="d-flex align-items-center me-5"><a href="../index.php" class="btn btn-primary btn-sm logoutbtn">Go to Website</a></li>
+            <li class="d-flex align-items-center ms-2">
+                <a class="nav-link me-2" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="fas fa-user me-2"></i> <?php echo  $seller_name; ?></a>
+                <a href="./sellerlogout.php" class="btn btn-primary btn-sm logoutbtn">Logout</a>
             </li>
         </ul>
     </nav>
@@ -104,43 +148,39 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>547922</td>
-                                        <td>Redmi Note 10</td>
-                                        <td>2</td>
-                                        <td>40000</td>
-                                        <td>Delivered</td>
-                                        <td>Cancel Order</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>547922</td>
-                                        <td>Redmi Note 10</td>
-                                        <td>2</td>
-                                        <td>40000</td>
-                                        <td>Delivered</td>
-                                        <td>Cancel Order</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>547922</td>
-                                        <td>Redmi Note 10</td>
-                                        <td>2</td>
-                                        <td>40000</td>
-                                        <td>Delivered</td>
-                                        <td>Cancel Order</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>547922</td>
-                                        <td>Redmi Note 10</td>
-                                        <td>2</td>
-                                        <td>40000</td>
-                                        <td>Delivered</td>
-                                        <td>Cancel Order</td>
-                                    </tr>
-                                    
+                                    <?php
+                                        $srno = 0;
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            $order_id = $row['order_id'];
+                                            $product_id = $row['product_id'];
+                                            $quantity = $row['quantity'];
+                                            $total_price = $row['order_total_price'];
+                                            $status = $row['status'];
+                                            $srno = $srno + 1;
+
+                                            $sql3 = "SELECT * FROM `products` WHERE `product_id` = '$product_id'";
+                                            $result3 = mysqli_query($conn, $sql3);
+                                            $row3 = mysqli_fetch_assoc($result3);
+                                            $productname = $row3['product_name'];
+
+                                            echo '  <tr id= "row-' . $order_id . '">
+                                                        <td>' . $srno .'</td>
+                                                        <td>' . $order_id .'</td>
+                                                        <td>' . $productname .'</td>
+                                                        <td>' . $quantity .'</td>
+                                                        <td>' . $total_price .'</td>
+                                                        <td>';  
+                                                        if($status == '1'){
+                                                           echo '<span class="badge bg-success">Delivered</span>';
+                                                        }
+                                                        else{
+                                                            echo '<span class="badge bg-danger">Not Delivered</span>';
+                                                        } 
+                                                        echo '</td>
+                                                        <td class="text-center"><button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="del(' . $order_id .')">Delete</button></td>
+                                                    </tr>';
+                                        }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -166,6 +206,19 @@
     <script src="assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
+
+    <script>
+
+        function del(id) {
+            let row = document.getElementById("row-" + id);
+            let deleteorder = document.getElementById("deleteorder");
+            deleteorder.innerHTML = row.getElementsByTagName("td")[1].innerText;
+
+            let deleteId = document.getElementById("deleteId");
+            deleteId.value = id;
+        }
+
+    </script>
 
 </body>
 
